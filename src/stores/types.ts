@@ -1,0 +1,25 @@
+export interface User {
+  id?: string
+  username?: string
+  phoneNumber?: string
+  nickName?: string
+  description?: string
+  updatedAt?: string
+  createdAt?: string
+  iat?: number
+  exp?: number
+  picture?: string
+  gender?: string
+}
+
+export interface UserProps {
+  isLogin: boolean
+  token: string
+  data: User
+}
+
+export interface Status {
+  loading: boolean
+  error: any
+  opName?: string
+}
