@@ -14,6 +14,12 @@ const routes: Array<RouteRecordRaw> = [
     children: [{ path: '', name: 'Home', component: Home, meta: { title: '欢迎来到绘海报' } }]
   },
   {
+    path: '/editor/:id',
+    name: 'Editor',
+    component: () => import('@/views/editor.vue'),
+    meta: { requiredLogin: true, title: '编辑我的设计' }
+  },
+  {
     path: '/login',
     name: 'Login',
     component: () => import('@/views/login.vue'),
