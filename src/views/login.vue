@@ -1,28 +1,32 @@
 <script lang="ts" setup>
 import type { Rule } from 'ant-design-vue/es/form'
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, reactive, ref, toRaw, watch } from 'vue'
 import { isMobile } from '@/utils'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import { useStatusStore } from '@/stores'
-import { message } from 'ant-design-vue'
+import { message, Form } from 'ant-design-vue'
+import { useRouter } from 'vue-router'
+
+const useForm = Form.useForm
+const router = useRouter()
 const statusStore = useStatusStore()
 const counter = ref(60)
-const form = reactive({
-  username: '',
-  password: ''
-})
-//TODO:
-const status = computed(() => statusStore.status)
-
-const cellnumberValidator = async (_rule: Rule, value: string) => {
-  if (value.trim() == '') return Promise.reject('手机号码不能为空')
-  const passed = isMobile(value.trim())
-  return passed ? Promise.resolve() : Promise.reject('手机号码格式不正确')
-}
-
 const rules: Record<string, Rule[]> = {
   username: [{ validator: cellnumberValidator, trigger: 'blur' }],
   password: [{ required: true, message: '验证码不能为空', trigger: 'blur' }]
+}
+const form = reactive({
+  username: '13912345678',
+  password: '1111'
+})
+const { validate } = useForm(form, rules)
+//TODO:
+const status = computed(() => statusStore.status)
+
+async function cellnumberValidator(_rule: Rule, value: string) {
+  if (value.trim() == '') return Promise.reject('手机号码不能为空')
+  const passed = isMobile(value.trim())
+  return passed ? Promise.resolve() : Promise.reject('手机号码格式不正确')
 }
 
 const codeButtonDisable = computed(() => {
@@ -36,7 +40,19 @@ const startCounter = () => {
   }, 1000)
 }
 
-const login = () => {}
+const login = () => {
+  validate()
+    .then(() => {
+      console.log(toRaw(form))
+      message.success('登录成功 2秒后跳转到首页')
+      setTimeout(() => {
+        router.push('/')
+      }, 2000);
+    })
+    .catch((e) => {
+      console.log('error', e)
+    })
+}
 
 const getCode = () => {
   // api
@@ -58,10 +74,10 @@ watch(counter, (newVal) => {
       <a-col :span="12" class="aside">
         <div class="aside-inner">
           <router-link to="/">
-            <img alt="Vue logo" src="../assets/logo2.png" class="logo-img" />
+            <!-- <img alt="Vue logo" src="../assets/logo2.png" class="logo-img" /> -->
           </router-link>
-          <h2>这是我用过的最好的建站工具</h2>
-          <span class="text-white-70">王铁锤, Google</span>
+          <h2>绘海报</h2>
+          <!-- <span class="text-white-70">王铁锤, Google</span> -->
         </div>
       </a-col>
       <a-col :span="12" class="login-area">
