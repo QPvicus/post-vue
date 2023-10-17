@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h1>Hello world</h1>
-    <a-button>点击</a-button>
+    <h1>首页</h1>
   </div>
 </template>
 
