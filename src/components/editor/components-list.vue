@@ -1,13 +1,15 @@
 <script lang="ts" setup>
 import { FileTextOutlined, FileImageOutlined, BuildOutlined } from '@ant-design/icons-vue'
-import { textList, type CreateComponentType } from './component'
+import { textList, type CreateComponentType, shapeList } from './component'
 import lText from './l-text.vue'
 import lImage from './l-image.vue'
+import lShape from './l-shape.vue'
 import type { Component } from 'vue'
 const emit = defineEmits(['item-click'])
 const comp: Record<string, Component> = {
   'l-text': lText,
-  'l-image': lImage
+  'l-image': lImage,
+  'l-shape': lShape
 }
 function generateResetCSS(name: string) {
   return {
@@ -64,7 +66,21 @@ function onItemClick(item: CreateComponentType) {
             形状
           </span>
         </template>
-        形状组件
+        <div
+          v-for="(item, index) in shapeList"
+          :key="index"
+          @click="onItemClick(item)"
+          class="component-item"
+        >
+          <div class="component-wrapper">
+            <component
+              :is="comp[item.name]"
+              v-bind="item.props"
+              class="inside-component"
+              :style="generateResetCSS(item.name)"
+            ></component>
+          </div>
+        </div>
       </a-tab-pane>
     </a-tabs>
   </div>

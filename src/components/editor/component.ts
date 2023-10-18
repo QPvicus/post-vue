@@ -85,7 +85,13 @@ export const textList: CreateComponentType[] = textPropsList.map((prop) => {
   }
 })
 
-export const imageSourceList = []
+export const imageSourceList = [
+  'http://static.imooc-lego.com/upload-files/frame-096161.png',
+  'http://static.imooc-lego.com/upload-files/text-449964.png',
+  'http://static.imooc-lego.com/upload-files/text2-288504.png',
+  'http://static.imooc-lego.com/upload-files/money-664239.png',
+  'http://static.imooc-lego.com/upload-files/bag-904186.png'
+]
 
 export const imageList: CreateComponentType[] = imageSourceList.map((url) => {
   return {

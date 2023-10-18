@@ -33,6 +33,7 @@ declare module 'vue' {
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     LImage: typeof import('./src/components/editor/l-image.vue')['default']
+    LShape: typeof import('./src/components/editor/l-shape.vue')['default']
     LText: typeof import('./src/components/editor/l-text.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
