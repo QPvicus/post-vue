@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import { useComponentClick, useStylePick } from '@/hooks'
-import { transformToComponentProps, componentsDefaultProps, isEditingProp } from './defaultProps'
+import {
+  transformToComponentProps,
+  componentsDefaultProps,
+  isEditingProp
+} from './editor/defaultProps'
 defineOptions({
   name: 'l-image'
 })

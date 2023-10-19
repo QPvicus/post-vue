@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { useComponentClick, useStylePick } from '@/hooks'
-import componentsDefaultProps, { transformToComponentProps, isEditingProp } from './defaultProps'
+import componentsDefaultProps, {
+  transformToComponentProps,
+  isEditingProp
+} from './editor/defaultProps'
 defineOptions({
   name: 'l-text'
 })

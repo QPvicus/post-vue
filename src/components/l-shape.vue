@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { useComponentClick, useStylePick } from '@/hooks'
-import componentsDefaultProps, { isEditingProp, transformToComponentProps } from './defaultProps'
+import componentsDefaultProps, {
+  isEditingProp,
+  transformToComponentProps
+} from './editor/defaultProps'
 
 const props = defineProps(
   transformToComponentProps(componentsDefaultProps['l-shape'].props, isEditingProp)

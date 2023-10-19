@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { FileTextOutlined, FileImageOutlined, BuildOutlined } from '@ant-design/icons-vue'
 import { textList, type CreateComponentType, shapeList } from './component'
-import lText from './l-text.vue'
-import lImage from './l-image.vue'
-import lShape from './l-shape.vue'
+import lText from '../l-text.vue'
+import lImage from '../l-image.vue'
+import lShape from '../l-shape.vue'
 import type { Component } from 'vue'
 const emit = defineEmits(['item-click'])
 const comp: Record<string, Component> = {
@@ -41,7 +41,7 @@ function onItemClick(item: CreateComponentType) {
         >
           <div class="component-wrapper">
             <component
-              :is="comp[item.name]"
+              :is="item.name"
               v-bind="item.props"
               class="inside-component"
               :style="generateResetCSS(item.name)"

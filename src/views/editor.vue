@@ -1,10 +1,42 @@
 <script lang="ts" setup>
 import ComponentsList from '@/components/editor/components-list.vue'
 import TabArea from '@/components/editor/tab-area.vue'
-import { useUserStore } from '@/stores'
+import EditWrapper from '@/components/editor/edit-wrapper.vue'
+import { useUserStore, useComponentStore } from '@/stores'
+import type { ComponentData } from '@/stores/types'
 import { computed } from 'vue'
+import { mapValues, pickBy } from 'lodash'
 const userStore = useUserStore()
+const editorStore = useComponentStore()
+const editor = editorStore.editor
 const userInfo = computed(() => userStore.user)
+const components = computed(() => editor.components)
+const pageState = computed(() => editor.page)
+
+const onItemCreated = (component: ComponentData) => {
+  editorStore.addComponentToEditor({ id: '', name: component.name, props: { ...component.props } })
+}
+const updatePosition = (data: {
+  left: number
+  top: number
+  id: string
+  width: number
+  height: number
+}) => {
+  const { id } = data
+  // 将不是id 加个px
+  const newPair = mapValues(
+    pickBy(data, (v, k) => k != 'id'),
+    (val) => {
+      return val + 'px'
+    }
+  )
+
+  const keysArr = Object.keys(newPair)
+  const valuesArr = Object.values(newPair)
+
+  editorStore.updateComponent({ key: keysArr, value: valuesArr, id, isProps: true })
+}
 </script>
 
 <template>
@@ -34,13 +66,22 @@ const userInfo = computed(() => userStore.user)
     <a-layout>
       <a-layout-sider width="300" style="background: #fff">
         <div class="sidebar-container">
-          <components-list> </components-list>
+          <components-list @item-click="onItemCreated"> </components-list>
         </div>
       </a-layout-sider>
       <a-layout style="padding: 0 24px 24px">
-        <a-layout-content class="preview-container">
+        <a-layout-content class="preview-container" id="canvas-area">
           <p>画布区域</p>
           <tab-area></tab-area>
+          <div class="preview-list" id="canvas-area">
+            <div class="body-container" :style="pageState.props">
+              <div v-for="item in components" :key="item.id">
+                <edit-wrapper v-if="!item.isHidden" :id="item.id">
+                  <component :is="item.name" v-bind="item.props" :isEditing="true"></component>
+                </edit-wrapper>
+              </div>
+            </div>
+          </div>
         </a-layout-content>
       </a-layout>
       <a-layout-sider width="300" style="background: #fff" class="settings-panel">
@@ -73,7 +114,7 @@ const userInfo = computed(() => userStore.user)
 .preview-container {
   padding: 24px;
   margin: 0;
-  min-height: 90vh !important;
+  min-height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -136,7 +177,7 @@ const userInfo = computed(() => userStore.user)
   height: 870px;
   padding: 60px 28px;
   position: relative;
-  background: url('@/assets/phone-back.png') no-repeat;
+  background: url('~@/assets/phone-back.png') no-repeat;
   background-size: cover;
 }
 .final-preview-inner .preview-title {

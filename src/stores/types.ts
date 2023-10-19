@@ -23,3 +23,49 @@ export interface Status {
   error: any
   opName?: string
 }
+
+export interface ComponentData {
+  id: string
+  props: Record<string, any>
+  name: string
+  layerName?: string
+  isHidden?: boolean
+  isLocked?: boolean
+}
+
+export interface PageData {
+  props: Record<string, any>
+  setting: Record<string, any>
+  id?: string
+  title?: string
+  desc?: string
+  coverImg?: string
+  uuid?: string
+  latestPublishAt?: string
+  updatedAt?: string
+  isTemplate?: boolean
+  isHot?: boolean
+  isNew?: boolean
+  author?: string
+  copiedCount?: number
+  status?: string
+  user?: {
+    gender: string
+    nickName: string
+    picture: string
+    userName: string
+  }
+}
+
+export interface EditProps {
+  // 页面所有组件
+  components: ComponentData[]
+  // 当前 work 的数据
+  page: PageData
+  // 当前被选中的组件 id
+  currentElement: string
+  // 当前数据已经被修改
+  isDirty: boolean
+  // 当前模版是否修改但未发布
+  isChangedNotPublished: boolean
+}
