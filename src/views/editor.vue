@@ -44,50 +44,42 @@ const updatePosition = (data: {
     <!-- <a-drawer placement="right" :width="400" title="设置面板">
       <p>内容1.。。。</p>
     </a-drawer> -->
-    <a-layout>
-      <a-layout-header class="header">
-        <div class="page-title">头部header</div>
-        <a-menu :selectable="false" theme="dark" mode="horizontal" :style="{ lineHeight: '64px' }">
-          <a-menu-item key="1">
-            <a-button type="primary">预览和设置</a-button>
-          </a-menu-item>
-          <a-menu-item key="2">
-            <a-button type="primary">保存</a-button>
-          </a-menu-item>
-          <a-menu-item key="3">
-            <a-button type="primary">发布</a-button>
-          </a-menu-item>
-          <a-menu-item key="4">
-            <user-profile :user="userInfo" :smMode="true"></user-profile>
-          </a-menu-item>
-        </a-menu>
-      </a-layout-header>
-    </a-layout>
-    <a-layout>
-      <a-layout-sider width="300" style="background: #fff">
-        <div class="sidebar-container">
-          <components-list @item-click="onItemCreated"> </components-list>
-        </div>
-      </a-layout-sider>
-      <a-layout style="padding: 0 24px 24px">
-        <a-layout-content class="preview-container" id="canvas-area">
-          <p>画布区域</p>
-          <tab-area></tab-area>
-          <div class="preview-list" id="canvas-area">
-            <div class="body-container" :style="pageState.props">
-              <div v-for="item in components" :key="item.id">
-                <edit-wrapper v-if="!item.isHidden" :id="item.id">
-                  <component :is="item.name" v-bind="item.props" :isEditing="true"></component>
-                </edit-wrapper>
+    <el-container style="flex-direction: column">
+      <el-container>
+        <el-header class="header">
+          <div class="page-title">头部header</div>
+        </el-header>
+      </el-container>
+      <el-container style="background-color: #f0f2f5">
+        <el-aside width="300px" style="background: #fff">
+          <div class="sidebar-container">
+            <components-list @item-click="onItemCreated"> </components-list>
+          </div>
+        </el-aside>
+        <el-container style="padding: 0 24px 24px">
+          <el-main class="preview-container" id="canvas-area">
+            <p>画布区域</p>
+            <tab-area></tab-area>
+            <div class="preview-list" id="canvas-area">
+              <div class="body-container" :style="pageState.props">
+                <div v-for="item in components" :key="item.id">
+                  <edit-wrapper
+                    v-if="!item.isHidden"
+                    :id="item.id"
+                    @update-position="updatePosition"
+                  >
+                    <component :is="item.name" v-bind="item.props" :isEditing="true"></component>
+                  </edit-wrapper>
+                </div>
               </div>
             </div>
-          </div>
-        </a-layout-content>
-      </a-layout>
-      <a-layout-sider width="300" style="background: #fff" class="settings-panel">
-        右侧布局
-      </a-layout-sider>
-    </a-layout>
+          </el-main>
+        </el-container>
+        <el-aside width="300px" style="background: #fff" class="settings-panel">
+          右侧布局
+        </el-aside>
+      </el-container>
+    </el-container>
   </div>
 </template>
 
@@ -95,6 +87,9 @@ const updatePosition = (data: {
 .header {
   display: flex;
   justify-content: space-between;
+  background-color: #001529;
+  height: 64px;
+  line-height: 64px;
 }
 .header .logo-img {
   margin-right: 20px;

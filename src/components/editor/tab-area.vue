@@ -1,20 +1,19 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { QuestionOutlined, UndoOutlined, RedoOutlined } from '@ant-design/icons-vue'
 import { operationText } from './dataOperations'
 const modalVisible = ref(false)
 </script>
 
 <template>
   <div class="history-area">
-    <a-modal title="快捷键操作" v-model:visible="modalVisible" :footer="null" width="400px">
+    <!-- <a-modal title="快捷键操作" v-model:visible="modalVisible" :footer="null" width="400px">
       <ul class="shortcut-list">
         <li v-for="(item, key) in operationText" :key="key" class="shortcut-list-item">
           <span class="text">{{ item.text }}</span> <span class="bold">{{ item.shortcut }}</span>
         </li>
       </ul>
-    </a-modal>
-    <div class="operation-list">
+    </a-modal> -->
+    <!-- <div class="operation-list">
       <a-tooltip>
         <template #title> 快捷键提示 </template>
         <a-button shape="circle" @click="modalVisible = true">
@@ -33,7 +32,7 @@ const modalVisible = ref(false)
           <template #icon><RedoOutlined /> </template>
         </a-button>
       </a-tooltip>
-    </div>
+    </div> -->
   </div>
 </template>
 

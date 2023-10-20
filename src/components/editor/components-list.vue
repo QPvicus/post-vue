@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { FileTextOutlined, FileImageOutlined, BuildOutlined } from '@ant-design/icons-vue'
 import { textList, type CreateComponentType, shapeList } from './component'
 import lText from '../l-text.vue'
 import lImage from '../l-image.vue'
@@ -24,13 +23,13 @@ function onItemClick(item: CreateComponentType) {
 </script>
 
 <template>
-  <div class="component-list">
-    <a-tabs>
-      <a-tab-pane key="1">
-        <template #tab>
-          <span>
-            <FileTextOutlined />
-            文本
+  <div class="create-component-list">
+    <el-tabs class="tabs">
+      <el-tab-pane>
+        <template #label>
+          <span class="custom-tabs-label">
+            <el-icon><Document /></el-icon>
+            <span>文本</span>
           </span>
         </template>
         <div
@@ -49,21 +48,21 @@ function onItemClick(item: CreateComponentType) {
             <span v-if="item.text" class="tip-text">{{ item.text }}</span>
           </div>
         </div>
-      </a-tab-pane>
-      <a-tab-pane key="2">
-        <template #tab>
-          <span>
-            <FileImageOutlined />
-            图片
+      </el-tab-pane>
+      <el-tab-pane>
+        <template #label>
+          <span class="custom-tabs-label">
+            <el-icon><Picture /></el-icon>
+            <span>图片</span>
           </span>
         </template>
         图片组件
-      </a-tab-pane>
-      <a-tab-pane key="3">
-        <template #tab>
-          <span>
-            <BuildOutlined />
-            形状
+      </el-tab-pane>
+      <el-tab-pane>
+        <template #label>
+          <span class="custom-tabs-label">
+            <el-icon><Grid /></el-icon>
+            <span>形状</span>
           </span>
         </template>
         <div
@@ -81,12 +80,25 @@ function onItemClick(item: CreateComponentType) {
             ></component>
           </div>
         </div>
-      </a-tab-pane>
-    </a-tabs>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
 <style>
+.tabs > .el-tabs__content {
+  padding: 32px;
+  color: #6b778c;
+  font-size: 32px;
+  font-weight: 600;
+}
+.tabs .custom-tabs-label .el-icon {
+  vertical-align: middle;
+}
+.tabs .custom-tabs-label span {
+  vertical-align: middle;
+  margin-left: 4px;
+}
 .component-wrapper {
   width: 100px;
   position: relative;
@@ -143,8 +155,5 @@ function onItemClick(item: CreateComponentType) {
   color: #ffffff;
   margin-bottom: 0;
   margin-left: 10px;
-}
-.create-component-list .ant-tabs-tab {
-  margin: 0;
 }
 </style>
