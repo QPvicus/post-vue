@@ -9,7 +9,7 @@ interface EditWrapperProps {
   props?: Record<string, any>
 }
 const props = defineProps<EditWrapperProps>()
-const emit = defineEmits(['update-position'])
+const emit = defineEmits(['update-position', 'active'])
 type ResizeDirection = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
 interface OriginalPositions {
   left: number
@@ -135,10 +135,20 @@ const startMove = (e: MouseEvent) => {
   document.addEventListener('mousemove', handleMove)
   document.addEventListener('mouseup', handleMouseUp)
 }
+
+function itemClick() {
+  emit('active', props.id)
+}
 </script>
 
 <template>
-  <div class="edit-wrapper" :class="{ active: true }" ref="editWrapper" :style="styleProps">
+  <div
+    class="edit-wrapper"
+    :class="{ active }"
+    ref="editWrapper"
+    :style="styleProps"
+    @click="itemClick"
+  >
     <div class="move-wrapper" ref="moveWrapper" @mousedown="startMove">
       <slot />
     </div>

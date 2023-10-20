@@ -12,7 +12,8 @@ const editor = editorStore.editor
 const userInfo = computed(() => userStore.user)
 const components = computed(() => editor.components)
 const pageState = computed(() => editor.page)
-
+const currentId = computed(() => editor.currentElement)
+const currentElement = computed(() => components.value.find((c) => c.id === currentId.value))
 const onItemCreated = (component: ComponentData) => {
   editorStore.addComponentToEditor({ id: '', name: component.name, props: { ...component.props } })
 }
@@ -36,6 +37,10 @@ const updatePosition = (data: {
   const valuesArr = Object.values(newPair)
 
   editorStore.updateComponent({ key: keysArr, value: valuesArr, id, isProps: true })
+}
+
+function setActive(id: string) {
+  editorStore.setActive(id)
 }
 </script>
 
@@ -68,6 +73,8 @@ const updatePosition = (data: {
                     :id="item.id"
                     @update-position="updatePosition"
                     :props="item.props"
+                    @active="setActive"
+                    :active="currentId === item.id"
                   >
                     <component :is="item.name" v-bind="item.props" :isEditing="true"></component>
                   </edit-wrapper>
@@ -77,7 +84,23 @@ const updatePosition = (data: {
           </el-main>
         </el-container>
         <el-aside width="300px" style="background: #fff" class="settings-panel">
-          右侧布局
+          <el-tabs type="border-card" stretch>
+            <el-tab-pane label="属性设置">
+              <template v-if="currentElement">
+                <div v-if="!currentElement.isLocked">
+                  <edit-group></edit-group>
+                </div>
+              </template>
+            </el-tab-pane>
+            <el-tab-pane label="图层设置">
+              <layer-list></layer-list>
+            </el-tab-pane>
+            <el-tab-pane label="背景设置">
+              <div class="page-setting">
+                <props-table></props-table>
+              </div>
+            </el-tab-pane>
+          </el-tabs>
         </el-aside>
       </el-container>
     </el-container>

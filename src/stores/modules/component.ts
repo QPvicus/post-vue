@@ -37,7 +37,6 @@ export const useComponentStore = defineStore('post-component', () => {
     component.id = uuidv4()
     component.layerName = `图层${editor.components.length + 1}`
     editor.components.push(component)
-    console.log(editor.components)
   }
 
   function updateComponent(data: any) {
@@ -69,5 +68,9 @@ export const useComponentStore = defineStore('post-component', () => {
     }
   }
 
-  return { editor, addComponentToEditor, updateComponent }
+  function setActive(id: string) {
+    editor.currentElement = id
+  }
+
+  return { editor, addComponentToEditor, updateComponent, setActive }
 })
