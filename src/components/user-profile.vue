@@ -27,9 +27,14 @@ function logout() {
 </script>
 
 <template>
-  <a-button type="primary" v-if="!user.isLogin" class="user-profile-component">
-    <router-link to="/login">登录</router-link>
-  </a-button>
+  <el-button
+    type="primary"
+    v-if="!user.isLogin"
+    @click="$router.push('/login')"
+    class="user-profile-component"
+  >
+    登录
+  </el-button>
   <div :class="{ 'user-operation': !smMode }" v-else>
     <el-button type="primary" @click="createDesign" v-if="!smMode"> 创建设计 </el-button>
     <el-button type="primary" class="user-profile-component" v-if="!smMode">

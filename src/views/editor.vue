@@ -57,7 +57,7 @@ const updatePosition = (data: {
           </div>
         </el-aside>
         <el-container style="padding: 0 24px 24px">
-          <el-main class="preview-container" id="canvas-area">
+          <el-main class="preview-container">
             <p>画布区域</p>
             <tab-area></tab-area>
             <div class="preview-list" id="canvas-area">
@@ -67,6 +67,7 @@ const updatePosition = (data: {
                     v-if="!item.isHidden"
                     :id="item.id"
                     @update-position="updatePosition"
+                    :props="item.props"
                   >
                     <component :is="item.name" v-bind="item.props" :isEditing="true"></component>
                   </edit-wrapper>

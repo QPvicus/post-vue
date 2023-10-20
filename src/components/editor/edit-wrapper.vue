@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useStylePick } from '@/hooks'
-import { nextTick, ref } from 'vue'
+import { nextTick, reactive, ref } from 'vue'
 
 interface EditWrapperProps {
   id: string
@@ -22,7 +22,6 @@ const editWrapper = ref<HTMLElement>()
 const moveWrapper = ref<HTMLElement>()
 
 const styleProps = useStylePick(props.props || {}, ['position', 'top', 'left', 'width', 'height'])
-
 function calculateSize(e: MouseEvent, direction: ResizeDirection, position: OriginalPositions) {
   const { left, right, top, bottom } = position
   const { pageX, pageY } = e
@@ -70,7 +69,6 @@ const startResize = (event: Event, type: ResizeDirection) => {
   const currentComponent = moveElement.firstElementChild as HTMLElement
   const resizeElements = [currentElement, currentComponent]
   const { left, top, bottom, right } = currentElement.getBoundingClientRect()
-  console.log(left, top, bottom, right)
   const handleMove = (e: MouseEvent) => {
     if (currentElement) {
       size = calculateSize(e, type, { left, top, bottom, right })
@@ -97,11 +95,51 @@ const startResize = (event: Event, type: ResizeDirection) => {
   document.addEventListener('mousemove', handleMove)
   document.addEventListener('mouseup', handleMouseUp)
 }
+
+let isMoving = false
+const gap = reactive({
+  x: 0,
+  y: 0
+})
+
+function calculatePosition(e: MouseEvent) {
+  const container = document.getElementById('canvas-area') as HTMLElement
+  const left = e.clientX - container.offsetLeft - gap.x
+  const top = e.clientY - container.offsetTop - gap.y + container.scrollTop
+  return {
+    left,
+    top
+  }
+}
+const startMove = (e: MouseEvent) => {
+  const currentElement = editWrapper.value as HTMLElement
+  gap.x = e.clientX - currentElement.getBoundingClientRect().left
+  gap.y = e.clientY - currentElement.getBoundingClientRect().top
+  const handleMove = (e: MouseEvent) => {
+    isMoving = true
+    const { left, top } = calculatePosition(e)
+    currentElement.style.top = top + 'px'
+    currentElement.style.left = left + 'px'
+  }
+  const handleMouseUp = (e: MouseEvent) => {
+    const { left, top } = calculatePosition(e)
+    document.removeEventListener('mousemove', handleMove)
+    if (isMoving) {
+      emit('update-position', { left, top, id: props.id })
+      isMoving = false
+    }
+    nextTick(() => {
+      document.removeEventListener('mouseup', handleMouseUp)
+    })
+  }
+  document.addEventListener('mousemove', handleMove)
+  document.addEventListener('mouseup', handleMouseUp)
+}
 </script>
 
 <template>
   <div class="edit-wrapper" :class="{ active: true }" ref="editWrapper" :style="styleProps">
-    <div class="move-wrapper" ref="moveWrapper">
+    <div class="move-wrapper" ref="moveWrapper" @mousedown="startMove">
       <slot />
     </div>
     <div class="resizers">
@@ -119,6 +157,7 @@ const startResize = (event: Event, type: ResizeDirection) => {
   cursor: pointer;
   border: 1px solid transparent;
   user-select: none;
+  box-sizing: border-box;
 }
 .edit-wrapper:hover {
   border: 1px dashed #ccc;
@@ -141,6 +180,7 @@ const startResize = (event: Event, type: ResizeDirection) => {
   border: 3px solid #1890ff;
   position: absolute;
   display: block;
+  box-sizing: border-box;
 }
 .edit-wrapper .resizers .resizer.top-left {
   left: -5px;

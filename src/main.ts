@@ -6,6 +6,7 @@ import { registerComponent } from '@/components'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 import 'normalize.css'
+import 'reset-css'
 import 'element-plus/dist/index.css'
 // @ts-expect-error: 1
 import lego from 'lego-components'
