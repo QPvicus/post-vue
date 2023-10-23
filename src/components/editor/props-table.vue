@@ -2,6 +2,7 @@
 import { map } from 'lodash'
 import { computed } from 'vue'
 import maps from './propsMap'
+import { useComponentStore } from '@/stores'
 const props = withDefaults(
   defineProps<{
     props: Record<string, any>
@@ -13,10 +14,13 @@ const props = withDefaults(
   }
 )
 const emit = defineEmits(['updated'])
-
+const editorStore = useComponentStore()
 function handleCommit(data: any) {
+  console.log('post', data)
   const finalData = props.mutationExtraData ? { ...data, ...props.mutationExtraData } : data
   // commit
+  //@ts-ignore
+  editorStore[props.mutationName] && editorStore[props.mutationName](data)
 }
 const finalProps = computed(() => {
   return map(props.props, (value, key) => {
@@ -33,6 +37,7 @@ const finalProps = computed(() => {
       parent,
       extraEvent
     } = maps[key]
+    const initValue = (initialTransform && initialTransform(value)) || value
     let isHidden = false
     if (parent) {
       isHidden = !props.props.isHidden
@@ -43,7 +48,7 @@ const finalProps = computed(() => {
       text,
       valueProp,
       isHidden,
-      value: initialTransform(value),
+      value: initValue,
       extraProps,
       events: {
         [eventName]: (e: any) => {
@@ -76,7 +81,13 @@ console.log('finalProps', finalProps.value)
           v-on="item.events"
           :[item.valueProp]="item.value"
         ></component>
-        <component v-else :is="item.component" v-on="item.events" :[item.valueProp]="item.value">
+        <component
+          v-else
+          :is="item.component"
+          v-on="item.events"
+          :[item.valueProp]="item.value"
+          v-bind="item.extraProps"
+        >
           <component
             v-for="option in item.options"
             :is="item.subComponent"
@@ -86,15 +97,6 @@ console.log('finalProps', finalProps.value)
           >
           </component>
         </component>
-        <!-- <component
-          v-else
-          :is="item.subComponent"
-          v-for="(option, k) in item.options"
-          :key="k"
-          :value="option.value"
-          :label="option.label"
-        >
-        </component> -->
       </div>
     </li>
   </div>

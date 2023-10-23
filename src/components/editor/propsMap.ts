@@ -31,7 +31,7 @@ interface MapTypes {
 
 const defaultMap = {
   component: 'el-input',
-  eventName: 'change',
+  eventName: 'update:modelValue',
   valueProp: 'modelValue',
   initialTransform: (v: any) => v,
   afterTransform: (e: any) => e
@@ -56,6 +56,11 @@ const fontFamilyArr = [
   { label: 'Times New Roman', value: '"Times New Roman", serif' }
 ]
 
+const Align = {
+  左: 'left',
+  中: 'center',
+  右: 'right'
+}
 const mapPropsToComponents: MapTypes = {
   text: {
     ...defaultMap,
@@ -78,7 +83,8 @@ const mapPropsToComponents: MapTypes = {
     component: 'el-select',
     subComponent: 'el-option',
     text: '字体',
-    options: fontFamilyArr
+    options: fontFamilyArr,
+    extraProps: { placeholder: '请选择字体' }
   },
   fontWeight: {
     ...defaultMap,
@@ -106,23 +112,19 @@ const mapPropsToComponents: MapTypes = {
   },
   lineHeight: {
     ...defaultMap,
-    component: 'a-slider',
+    component: 'el-slider',
     text: '行高',
     initialTransform: (v: string) => (v ? parseFloat(v) : 0),
-    afterTransform: (e: number) => e.toString(),
-    extraProps: { min: 0, max: 3, step: 0.1 }
+    afterTransform: (e: number) => e,
+    extraProps: { min: 0, max: 3, step: 0.1, 'show-tooltip': true }
   },
   textAlign: {
     ...defaultMap,
-    component: 'a-radio-group',
-    subComponent: 'a-radio-button',
-    afterTransform: (e: any) => e.target.value,
+    component: 'el-radio-group',
+    subComponent: 'el-radio-button',
+    afterTransform: (value: any) => Align[value],
     text: '对齐',
-    options: [
-      { value: 'left', text: '左' },
-      { value: 'center', text: '中' },
-      { value: 'right', text: '右' }
-    ]
+    options: [{ label: '左' }, { label: '中' }, { label: '右' }]
   },
   color: {
     ...defaultMap,

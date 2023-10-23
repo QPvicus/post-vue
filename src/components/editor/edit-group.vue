@@ -62,8 +62,7 @@ console.log(editGroup.value)
         :key="item.text"
         :name="item.text"
       >
-        <props-table :props="item.props" :mutationExtraData="{isProps: true}"></props-table>
-        {{ JSON.stringify(item) }}
+        <props-table :props="item.props" :mutationExtraData="{ isProps: true }"></props-table>
       </el-collapse-item>
     </el-scrollbar>
   </el-collapse>
