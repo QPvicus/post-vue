@@ -160,3 +160,7 @@ export const shapeList: CreateComponentType[] = shapePropList.map((prop) => {
     }
   }
 })
+
+// const renderComponentMap = {
+// 'el-button':
+// }
