@@ -10,7 +10,7 @@ const emit = defineEmits(['change'])
 const areaRef = ref<HTMLTextAreaElement>()
 let triggerFlag = false
 const onInput = (e: Event) => {
-  console.log(e)
+  if (triggerFlag) return
   emit('change', e)
 }
 const onStart = () => {
@@ -27,11 +27,13 @@ const onEnd = () => {
 <template>
   <textarea
     class="textarea-content"
-    :model-value="value"
+    :value="value"
     ref="areaRef"
     v-bind="$attrs"
     rows="3"
     @input="onInput"
+    @compositionstart="onStart"
+    @compositionend="onEnd"
   >
   </textarea>
 </template>

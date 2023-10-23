@@ -1,5 +1,7 @@
-import { textDefaultProps, imageDefaultProps, componentsDefaultProps } from './defaultProps'
-
+import { componentsDefaultProps } from './defaultProps'
+const textDefaultProps = componentsDefaultProps['l-text'].props
+const imageDefaultProps = componentsDefaultProps['l-image'].props
+const shapeDefaultProps = componentsDefaultProps['l-shape'].props
 export interface CreateComponentType {
   name: string
   text?: string
@@ -155,12 +157,8 @@ export const shapeList: CreateComponentType[] = shapePropList.map((prop) => {
   return {
     name: 'l-shape',
     props: {
-      ...componentsDefaultProps['l-shape'].props,
+      ...shapeDefaultProps,
       ...prop
     }
   }
 })
-
-// const renderComponentMap = {
-// 'el-button':
-// }

@@ -114,18 +114,27 @@ export const isEditingProp = {
   }
 }
 
-export const transformToComponentProps = (
-  props: Record<string, any>,
-  extraProps?: { [key: string]: any }
-) => {
-  const mapProps = mapValues(props, (item) => {
+// export const transformToComponentProps = (
+//   props: Record<string, any>,
+//   extraProps?: { [key: string]: any }
+// ) => {
+//   const mapProps = mapValues(props, (item) => {
+//     return {
+//       type: item.constructor,
+//       default: item
+//     }
+//   }) as Record<string, any>
+//   if (extraProps) return { ...mapProps, ...extraProps }
+//   return mapProps
+// }
+
+export const transformToComponentProps = (props: { [key: string]: any }) => {
+  return mapValues(props, (item) => {
     return {
       type: item.constructor,
       default: item
     }
-  }) as Record<string, any>
-  if (extraProps) return { ...mapProps, ...extraProps }
-  return mapProps
+  }) as { [key: string]: any }
 }
 
 export default componentsDefaultProps

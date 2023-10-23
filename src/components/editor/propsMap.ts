@@ -75,6 +75,8 @@ const mapPropsToComponents: MapTypes = {
     component: 'textarea-fix',
     afterTransform: (e: any) => e.target.value,
     text: '文本',
+    valueProp: 'value',
+    eventName: 'change',
     extraProps: { rows: 3 }
   },
   href: {

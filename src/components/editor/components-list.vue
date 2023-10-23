@@ -1,15 +1,12 @@
 <script lang="ts" setup>
 import { textList, type CreateComponentType, shapeList } from './component'
-import lText from '../l-text.vue'
-import lImage from '../l-image.vue'
-import lShape from '../l-shape.vue'
 import type { Component } from 'vue'
+import { componentsDefaultProps } from './defaultProps'
 const emit = defineEmits(['item-click'])
-const comp: Record<string, Component> = {
-  'l-text': lText,
-  'l-image': lImage,
-  'l-shape': lShape
-}
+
+const textDefaultProps = componentsDefaultProps['l-text'].props
+const imageDefaultProps = componentsDefaultProps['l-image'].props
+const shapeDefaultProps = componentsDefaultProps['l-shape'].props
 function generateResetCSS(name: string) {
   return {
     position: 'static',
@@ -73,7 +70,7 @@ function onItemClick(item: CreateComponentType) {
         >
           <div class="component-wrapper">
             <component
-              :is="comp[item.name]"
+              :is="item.name"
               v-bind="item.props"
               class="inside-component"
               :style="generateResetCSS(item.name)"
