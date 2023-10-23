@@ -13,6 +13,7 @@ const userInfo = computed(() => userStore.user)
 const components = computed(() => editor.components)
 const pageState = computed(() => editor.page)
 const currentId = computed(() => editor.currentElement)
+const currentEditing = computed(() => editor.currentEditing)
 const currentElement = computed(() => components.value.find((c) => c.id === currentId.value))
 const onItemCreated = (component: ComponentData) => {
   editorStore.addComponentToEditor({ id: '', name: component.name, props: { ...component.props } })
@@ -41,6 +42,9 @@ const updatePosition = (data: {
 
 function setActive(id: string) {
   editorStore.setActive(id)
+}
+function setEdit(id: string) {
+  editorStore.setEditing(id)
 }
 </script>
 
@@ -75,6 +79,8 @@ function setActive(id: string) {
                     :props="item.props"
                     @active="setActive"
                     :active="currentId === item.id"
+                    :editing="currentEditing"
+                    @editing="setEdit"
                   >
                     <component :is="item.name" v-bind="item.props" :isEditing="true"></component>
                   </edit-wrapper>
@@ -84,12 +90,18 @@ function setActive(id: string) {
           </el-main>
         </el-container>
         <el-aside width="300px" style="background: #fff" class="settings-panel">
-          <el-tabs type="border-card" stretch>
+          <el-tabs stretch>
             <el-tab-pane label="属性设置">
               <template v-if="currentElement">
                 <div v-if="!currentElement.isLocked">
-                  <edit-group></edit-group>
+                  <edit-group :props="currentElement.props"></edit-group>
                 </div>
+                <div v-else>
+                  <el-empty description="该元素被锁定，无法编辑" />
+                </div>
+              </template>
+              <template v-else>
+                <el-empty description="在画布中选择元素并开始编辑" />
               </template>
             </el-tab-pane>
             <el-tab-pane label="图层设置">

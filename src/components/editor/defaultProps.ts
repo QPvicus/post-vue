@@ -1,5 +1,32 @@
 import { mapValues } from 'lodash'
 
+export interface GroupProps {
+  text: string
+  items: string[]
+}
+export const defaultEditGroups: GroupProps[] = [
+  {
+    text: '尺寸',
+    items: ['height', 'width', 'paddingLeft', 'paddingRight', 'paddingTop', 'paddingBottom']
+  },
+  {
+    text: '边框',
+    items: ['borderStyle', 'borderColor', 'borderWidth', 'borderRadius']
+  },
+  {
+    text: '阴影与透明度',
+    items: ['opacity', 'boxShadow']
+  },
+  {
+    text: '位置',
+    items: ['left', 'top']
+  },
+  {
+    text: '事件功能',
+    items: ['actionType', 'url']
+  }
+]
+
 interface DefaultPropsType {
   [key: string]: {
     props: object
@@ -89,7 +116,7 @@ export const isEditingProp = {
 
 export const transformToComponentProps = (
   props: Record<string, any>,
-  extraProps?: {[key: string]: any}
+  extraProps?: { [key: string]: any }
 ) => {
   const mapProps = mapValues(props, (item) => {
     return {

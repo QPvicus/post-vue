@@ -30,7 +30,8 @@ export const useComponentStore = defineStore('post-component', () => {
     page: { props: pageDefaultProps, setting: {} },
     currentElement: '',
     isChangedNotPublished: false,
-    isDirty: false
+    isDirty: false,
+    currentEditing: ''
   })
 
   function addComponentToEditor(component: ComponentData) {
@@ -72,5 +73,9 @@ export const useComponentStore = defineStore('post-component', () => {
     editor.currentElement = id
   }
 
-  return { editor, addComponentToEditor, updateComponent, setActive }
+  function setEditing(id: string) {
+    editor.currentEditing = id
+  }
+
+  return { editor, addComponentToEditor, updateComponent, setActive, setEditing }
 })

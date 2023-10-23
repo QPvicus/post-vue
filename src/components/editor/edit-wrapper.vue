@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useStylePick } from '@/hooks'
-import { nextTick, reactive, ref } from 'vue'
+import { computed, nextTick, reactive, ref, watch } from 'vue'
 
 interface EditWrapperProps {
   id: string
@@ -9,7 +9,7 @@ interface EditWrapperProps {
   props?: Record<string, any>
 }
 const props = defineProps<EditWrapperProps>()
-const emit = defineEmits(['update-position', 'active'])
+const emit = defineEmits(['update-position', 'active', 'editing'])
 type ResizeDirection = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
 interface OriginalPositions {
   left: number
@@ -20,6 +20,13 @@ interface OriginalPositions {
 
 const editWrapper = ref<HTMLElement>()
 const moveWrapper = ref<HTMLElement>()
+
+const isEditable = computed(() => props.editing === props.id)
+watch(isEditable, (newVal) => {
+  if (isEditable.value && editWrapper.value) {
+    editWrapper.value.focus()
+  }
+})
 
 const styleProps = useStylePick(props.props || {}, ['position', 'top', 'left', 'width', 'height'])
 function calculateSize(e: MouseEvent, direction: ResizeDirection, position: OriginalPositions) {
@@ -139,6 +146,9 @@ const startMove = (e: MouseEvent) => {
 function itemClick() {
   emit('active', props.id)
 }
+function itemEdit() {
+  emit('editing', props.id)
+}
 </script>
 
 <template>
@@ -148,6 +158,7 @@ function itemClick() {
     ref="editWrapper"
     :style="styleProps"
     @click="itemClick"
+    @dblclick="itemEdit"
   >
     <div class="move-wrapper" ref="moveWrapper" @mousedown="startMove">
       <slot />

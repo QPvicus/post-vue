@@ -32,12 +32,6 @@ const rules = reactive<FormRules<typeof form>>({
 //TODO:
 const status = computed(() => statusStore.status)
 
-// async function cellnumberValidator(_rule: Rule, value: string) {
-//   if (value.trim() == '') return Promise.reject('手机号码不能为空')
-//   const passed = isMobile(value.trim())
-//   return passed ? Promise.resolve() : Promise.reject('手机号码格式不正确')
-// }
-
 const codeButtonDisable = computed(() => {
   return !isMobile(form.username.trim()) || counter.value < 60
 })
@@ -157,7 +151,7 @@ watch(counter, (newVal) => {
 .login-area {
   height: 100vh;
 }
-.login-area .ant-form {
+.login-area .el-form {
   width: 350px;
 }
 .text-white-70 {
@@ -178,6 +172,7 @@ watch(counter, (newVal) => {
 .login-area .subTitle {
   color: #666666;
   font-size: 19px;
+  margin: 15px 0;
 }
 .login-area .ant-form-item-label {
   display: none;

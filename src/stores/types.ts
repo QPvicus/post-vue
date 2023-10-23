@@ -68,4 +68,6 @@ export interface EditProps {
   isDirty: boolean
   // 当前模版是否修改但未发布
   isChangedNotPublished: boolean
+  // 当前正在 inline editing 的组件
+  currentEditing: string
 }
