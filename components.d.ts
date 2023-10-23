@@ -27,6 +27,7 @@ declare module 'vue' {
     ATabPane: typeof import('ant-design-vue/es')['TabPane']
     ATabs: typeof import('ant-design-vue/es')['Tabs']
     ATooltip: typeof import('ant-design-vue/es')['Tooltip']
+    ColorPicker: typeof import('./src/components/color-picker.vue')['default']
     ComponentsList: typeof import('./src/components/editor/components-list.vue')['default']
     EditGroup: typeof import('./src/components/editor/edit-group.vue')['default']
     EditWrapper: typeof import('./src/components/editor/edit-wrapper.vue')['default']

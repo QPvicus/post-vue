@@ -56,11 +56,19 @@ const fontFamilyArr = [
   { label: 'Times New Roman', value: '"Times New Roman", serif' }
 ]
 
-const Align = {
-  左: 'left',
-  中: 'center',
-  右: 'right'
+function calcAlign(text: string) {
+  switch (text) {
+    case '左':
+      return 'left'
+    case '中':
+      return 'center'
+    case '右':
+      return 'right'
+    default:
+      return ''
+  }
 }
+
 const mapPropsToComponents: MapTypes = {
   text: {
     ...defaultMap,
@@ -122,19 +130,23 @@ const mapPropsToComponents: MapTypes = {
     ...defaultMap,
     component: 'el-radio-group',
     subComponent: 'el-radio-button',
-    afterTransform: (value: any) => Align[value],
+    afterTransform: (value: any) => calcAlign(value),
     text: '对齐',
     options: [{ label: '左' }, { label: '中' }, { label: '右' }]
   },
   color: {
     ...defaultMap,
     component: 'color-picker',
-    text: '文字颜色'
+    text: '文字颜色',
+    valueProp: 'value',
+    eventName: 'change'
   },
   backgroundColor: {
     ...defaultMap,
     component: 'color-picker',
-    text: '背景颜色'
+    text: '背景颜色',
+    valueProp: 'value',
+    eventName: 'change'
   },
   // actions
   actionType: {

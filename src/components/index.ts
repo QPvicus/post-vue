@@ -3,13 +3,14 @@ import type { App, Component } from 'vue'
 // import LShape from './l-shape.vue'
 // import LText from './l-text.vue'
 import TextareaFix from './editor/textarea-fix.vue'
-
+import ColorPicker from './color-picker.vue'
 const components: Record<string, Component> = {
   // 'l-image': LImage,
   // 'l-shape': LShape,
   // 'l-text': LText
   // 'textarea-fix': TextareaFixVue
-  'textarea-fix': TextareaFix
+  'textarea-fix': TextareaFix,
+  'color-picker': ColorPicker
 }
 
 export function registerComponent(app: App) {
