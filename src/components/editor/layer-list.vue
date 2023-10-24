@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { ComponentData } from '@/stores/types'
 import { View, Hide, Lock, Unlock } from '@element-plus/icons-vue'
+import { VueDraggableNext as Draggable } from 'vue-draggable-next'
 import InputEdit from './input-edit.vue'
 const props = withDefaults(
   defineProps<{
@@ -23,7 +24,7 @@ function handleChange(id: string, key: string, value: any) {
 </script>
 
 <template>
-  <div class="">
+  <draggable :list="list" handle=".handle" class="" ghost-class="ghost">
     <li
       class="list-item"
       v-for="item in list"
@@ -32,10 +33,18 @@ function handleChange(id: string, key: string, value: any) {
       @click="handleClick(item.id)"
     >
       <el-tooltip placement="top" :content="item.isHidden ? '显示' : '隐藏'">
-        <el-button circle :icon="item.isHidden ? View : Hide" />
+        <el-button
+          circle
+          :icon="item.isHidden ? View : Hide"
+          @click="handleChange(item.id, 'isHidden', !item.isHidden)"
+        />
       </el-tooltip>
       <el-tooltip placement="top" :content="item.isLocked ? '解锁' : '锁定'">
-        <el-button circle :icon="item.isLocked ? Unlock : Lock" />
+        <el-button
+          circle
+          :icon="item.isLocked ? Unlock : Lock"
+          @click="handleChange(item.id, 'isLocked', !item.isLocked)"
+        />
       </el-tooltip>
       <input-edit
         :value="item.layerName!"
@@ -52,7 +61,7 @@ function handleChange(id: string, key: string, value: any) {
         </el-button>
       </el-tooltip>
     </li>
-  </div>
+  </draggable>
 </template>
 
 <style>
