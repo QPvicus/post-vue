@@ -44,8 +44,11 @@ const updatePosition = (data: {
   editorStore.updateComponent({ key: keysArr, value: valuesArr, id, isProps: true })
 }
 
-function setActive(id: string) {
+function setActive(id: string, notSwitchPanel = false) {
   editorStore.setActive(id)
+  if (!notSwitchPanel) {
+    activePanel.value = 'component'
+  }
 }
 function setEdit(id: string) {
   editorStore.setEditing(id)
@@ -76,6 +79,7 @@ function clearSelection(e: any) {
 }
 
 watch(activePanel, (newVal) => {
+  console.log('newVal', newVal)
   if (newVal !== 'component') {
     editorStore.setActive('')
   }
