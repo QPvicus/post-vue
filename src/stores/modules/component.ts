@@ -51,15 +51,14 @@ export const useComponentStore = defineStore('post-component', () => {
           ? key.map((k: string) => updatedComponent.props[k])
           : updatedComponent.props[key]
 
-        debounceChange(oldValue, () => {
-          if (Array.isArray(key)) {
-            key.forEach((k, idx) => {
-              updatedComponent.props[k] = value[idx]
-            })
-          } else {
-            updatedComponent.props[key] = value
-          }
-        })
+        debounceChange(oldValue, () => {})
+        if (Array.isArray(key)) {
+          key.forEach((k, idx) => {
+            updatedComponent.props[k] = value[idx]
+          })
+        } else {
+          updatedComponent.props[key] = value
+        }
       } else {
         updatedComponent.props[key] = value
       }

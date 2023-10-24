@@ -4,9 +4,6 @@ import type { Component } from 'vue'
 import { componentsDefaultProps } from './defaultProps'
 const emit = defineEmits(['item-click'])
 
-const textDefaultProps = componentsDefaultProps['l-text'].props
-const imageDefaultProps = componentsDefaultProps['l-image'].props
-const shapeDefaultProps = componentsDefaultProps['l-shape'].props
 function generateResetCSS(name: string) {
   return {
     position: 'static',

@@ -4,8 +4,10 @@ import TabArea from '@/components/editor/tab-area.vue'
 import EditWrapper from '@/components/editor/edit-wrapper.vue'
 import { useUserStore, useComponentStore } from '@/stores'
 import type { ComponentData } from '@/stores/types'
-import { computed } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { mapValues, pickBy } from 'lodash'
+
+export type TabType = 'component' | 'layer' | 'page'
 const userStore = useUserStore()
 const editorStore = useComponentStore()
 const editor = editorStore.editor
@@ -14,6 +16,8 @@ const components = computed(() => editor.components)
 const pageState = computed(() => editor.page)
 const currentId = computed(() => editor.currentElement)
 const currentEditing = computed(() => editor.currentEditing)
+const activePanel = ref<TabType>('component')
+const canvasFix = ref(false)
 const currentElement = computed(() => components.value.find((c) => c.id === currentId.value))
 const onItemCreated = (component: ComponentData) => {
   editorStore.addComponentToEditor({ id: '', name: component.name, props: { ...component.props } })
@@ -45,7 +49,37 @@ function setActive(id: string) {
 }
 function setEdit(id: string) {
   editorStore.setEditing(id)
+  activePanel.value = 'component'
+  nextTick(() => {
+    const ele = document.querySelector('#item-text textarea') as HTMLTextAreaElement
+    if (ele) {
+      ele.focus()
+    }
+  })
 }
+
+function setPageSetting(e: Event) {
+  const currentTarget = e.target as HTMLElement
+  if (currentTarget.classList.contains('body-container')) {
+    editorStore.setActive('')
+    activePanel.value = 'page'
+  }
+}
+
+// clear component or page selection when clicking the gray area
+function clearSelection(e: any) {
+  const currentTarget = e.target as HTMLElement
+  if (currentTarget.classList.contains('preview-container')) {
+    editorStore.setActive('')
+    activePanel.value = 'page'
+  }
+}
+
+watch(activePanel, (newVal) => {
+  if (newVal !== 'component') {
+    editorStore.setActive('')
+  }
+})
 </script>
 
 <template>
@@ -66,10 +100,15 @@ function setEdit(id: string) {
           </div>
         </el-aside>
         <el-container style="padding: 0 24px 24px">
-          <el-main class="preview-container">
+          <el-main class="preview-container" @click="clearSelection">
             <p>画布区域</p>
             <tab-area></tab-area>
-            <div class="preview-list" id="canvas-area">
+            <div
+              class="preview-list"
+              id="canvas-area"
+              @click="setPageSetting"
+              :class="{ active: activePanel === 'page', 'canvas-fix': canvasFix }"
+            >
               <div class="body-container" :style="pageState.props">
                 <div v-for="item in components" :key="item.id">
                   <edit-wrapper
