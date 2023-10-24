@@ -6,7 +6,7 @@ import { useComponentStore } from '@/stores'
 const props = withDefaults(
   defineProps<{
     props: Record<string, any>
-    mutationName: string
+    mutationName?: string
     mutationExtraData: Record<string, any>
   }>(),
   {
@@ -16,11 +16,11 @@ const props = withDefaults(
 const emit = defineEmits(['updated'])
 const editorStore = useComponentStore()
 function handleCommit(data: any) {
-  console.log('post', data)
   const finalData = props.mutationExtraData ? { ...data, ...props.mutationExtraData } : data
+  console.log(finalData, 'finalData', props.mutationName)
   // commit
   //@ts-ignore
-  editorStore[props.mutationName] && editorStore[props.mutationName](data)
+  editorStore[props.mutationName] && editorStore[props.mutationName](finalData)
 }
 const finalProps = computed(() => {
   return map(props.props, (value, key) => {
@@ -65,6 +65,8 @@ const finalProps = computed(() => {
     }
   })
 })
+
+console.log(finalProps.value, 'finalProps')
 
 console.log('finalProps', finalProps.value)
 </script>
@@ -119,7 +121,12 @@ console.log('finalProps', finalProps.value)
   display: none;
 }
 .label {
-  width: 20%;
+  width: 28%;
+  color: rgb(0, 0, 0, 0.65);
+}
+
+.prop-item .el-select {
+  width: 150px;
 }
 .prop-item.no-text {
   display: inline-block;
@@ -129,6 +136,12 @@ console.log('finalProps', finalProps.value)
   margin-left: 28%;
 }
 .prop-component {
-  width: 70%;
+  width: 69%;
+}
+
+.prop-component.component-shadow-picker,
+.prop-component.component-image-processer,
+.prop-component.component-background-processer {
+  width: 100%;
 }
 </style>

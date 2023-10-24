@@ -158,8 +158,12 @@ watch(activePanel, (newVal) => {
               ></layer-list>
             </el-tab-pane>
             <el-tab-pane label="背景设置">
-              <div class="page-setting">
-                <props-table></props-table>
+              <div class="page-settings">
+                <props-table
+                  :props="pageState.props"
+                  mutationName="updatePage"
+                  :mutationExtraData="{ level: 'props' }"
+                ></props-table>
               </div>
             </el-tab-pane>
           </el-tabs>

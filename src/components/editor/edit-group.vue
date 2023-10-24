@@ -49,7 +49,6 @@ const editGroup = computed(() => {
     }
   })
 })
-console.log(editGroup.value)
 </script>
 
 <template>

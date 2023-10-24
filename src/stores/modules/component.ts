@@ -65,7 +65,26 @@ export const useComponentStore = defineStore('post-component', () => {
 
       editor.isDirty = true
       editor.isChangedNotPublished = true
+      console.log(editor.components, 'components')
     }
+  }
+
+  function updatePage(data: any) {
+    const { key, value, level } = data
+    if (level) {
+      if (level === 'props') {
+        // @ts-ignore
+        const oldValue = editor.page[level][key]
+        debounceChange(oldValue, () => {})
+        // @ts-ignore
+        editor.page[level][key] = value
+      }
+    } else {
+      // @ts-ignore
+      editor.page[key] = value
+    }
+    editor.isDirty = true
+    editor.isChangedNotPublished = true
   }
 
   function setActive(id: string) {
@@ -76,5 +95,5 @@ export const useComponentStore = defineStore('post-component', () => {
     editor.currentEditing = id
   }
 
-  return { editor, addComponentToEditor, updateComponent, setActive, setEditing }
+  return { editor, addComponentToEditor, updateComponent, setActive, setEditing, updatePage }
 })

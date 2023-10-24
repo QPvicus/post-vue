@@ -3,7 +3,7 @@ import { defaultColors } from './defaults'
 withDefaults(
   defineProps<{
     value: string
-    colors: string[]
+    colors?: string[]
   }>(),
   {
     colors: () => defaultColors

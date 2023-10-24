@@ -5,6 +5,7 @@ import type { App, Component } from 'vue'
 import TextareaFix from './editor/textarea-fix.vue'
 import ColorPicker from './color-picker.vue'
 import SvgIcon from './svg-icon.vue'
+import IconSwitch from './icon-switch.vue'
 const components: Record<string, Component> = {
   // 'l-image': LImage,
   // 'l-shape': LShape,
@@ -12,7 +13,8 @@ const components: Record<string, Component> = {
   // 'textarea-fix': TextareaFixVue
   'textarea-fix': TextareaFix,
   'color-picker': ColorPicker,
-  'svg-icon': SvgIcon
+  'svg-icon': SvgIcon,
+  'icon-switch': IconSwitch
 }
 
 export function registerComponent(app: App) {

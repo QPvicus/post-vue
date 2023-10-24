@@ -57,6 +57,7 @@ declare module 'vue' {
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
+    IconSwitch: typeof import('./src/components/icon-switch.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     InputEdit: typeof import('./src/components/editor/input-edit.vue')['default']
     LayerList: typeof import('./src/components/editor/layer-list.vue')['default']

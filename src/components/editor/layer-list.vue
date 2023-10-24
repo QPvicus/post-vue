@@ -6,7 +6,7 @@ import InputEdit from './input-edit.vue'
 const props = withDefaults(
   defineProps<{
     list: ComponentData[]
-    selectedId: string
+    selectedId?: string
   }>(),
   {
     selectedId: ''
