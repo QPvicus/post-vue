@@ -71,7 +71,13 @@ console.log('finalProps', finalProps.value)
 
 <template>
   <div class="props-table">
-    <li class="prop-item" v-for="(item, k) in finalProps" :key="k">
+    <li
+      class="prop-item"
+      v-for="(item, k) in finalProps"
+      :key="k"
+      :class="{ 'no-text': !item.text, 'hide-item': item.isHidden }"
+      :id="`item-${item.key}`"
+    >
       <span class="label" v-if="item.text">{{ item.text }}</span>
       <div :class="`prop-component component-${item.component}`">
         <component

@@ -9,6 +9,7 @@ import 'normalize.css'
 import 'reset-css'
 import 'element-plus/dist/index.css'
 import ElementPlus from 'element-plus'
+import 'virtual:svg-icons-register'
 // @ts-expect-error: 1
 import lego from 'lego-components'
 import 'lego-components/dist/lego-components.css'

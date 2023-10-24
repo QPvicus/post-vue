@@ -78,8 +78,11 @@ function clearSelection(e: any) {
   }
 }
 
+function handleChange(data: any) {
+  editorStore.updateComponent(data)
+}
+
 watch(activePanel, (newVal) => {
-  console.log('newVal', newVal)
   if (newVal !== 'component') {
     editorStore.setActive('')
   }
@@ -148,7 +151,11 @@ watch(activePanel, (newVal) => {
               </template>
             </el-tab-pane>
             <el-tab-pane label="图层设置">
-              <layer-list></layer-list>
+              <layer-list
+                :list="components"
+                @select="(id: string) => setActive(id, true)"
+                @change="handleChange"
+              ></layer-list>
             </el-tab-pane>
             <el-tab-pane label="背景设置">
               <div class="page-setting">

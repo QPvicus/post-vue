@@ -60,7 +60,7 @@ export const useComponentStore = defineStore('post-component', () => {
           updatedComponent.props[key] = value
         }
       } else {
-        updatedComponent.props[key] = value
+        updatedComponent[key] = value
       }
 
       editor.isDirty = true
