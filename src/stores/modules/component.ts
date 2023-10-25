@@ -65,7 +65,6 @@ export const useComponentStore = defineStore('post-component', () => {
 
       editor.isDirty = true
       editor.isChangedNotPublished = true
-      console.log(editor.components, 'components')
     }
   }
 

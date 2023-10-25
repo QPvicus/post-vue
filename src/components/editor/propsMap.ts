@@ -248,7 +248,9 @@ const mapPropsToComponents: MapTypes = {
   },
   boxShadow: {
     ...defaultMap,
-    component: 'shadow-picker'
+    component: 'shadow-picker',
+    valueProp: 'value',
+    eventName: 'change'
   },
   position: {
     ...defaultMap,

@@ -17,7 +17,6 @@ const emit = defineEmits(['updated'])
 const editorStore = useComponentStore()
 function handleCommit(data: any) {
   const finalData = props.mutationExtraData ? { ...data, ...props.mutationExtraData } : data
-  console.log(finalData, 'finalData', props.mutationName)
   // commit
   //@ts-ignore
   editorStore[props.mutationName] && editorStore[props.mutationName](finalData)
