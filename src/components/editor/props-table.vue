@@ -37,7 +37,6 @@ const finalProps = computed(() => {
       parent,
       extraEvent
     } = maps[key]
-    const initValue = (initialTransform && initialTransform(value)) || value
     let isHidden = false
     if (parent) {
       isHidden = !props.props.isHidden
@@ -48,7 +47,7 @@ const finalProps = computed(() => {
       text,
       valueProp,
       isHidden,
-      value: initValue,
+      value: initialTransform(value),
       extraProps,
       events: {
         [eventName]: (e: any) => {
@@ -65,10 +64,6 @@ const finalProps = computed(() => {
     }
   })
 })
-
-console.log(finalProps.value, 'finalProps')
-
-console.log('finalProps', finalProps.value)
 </script>
 
 <template>

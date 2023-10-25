@@ -2,7 +2,6 @@
 import { difference } from 'lodash'
 import { computed, ref } from 'vue'
 import { defaultEditGroups, type GroupProps } from './defaultProps'
-import { checkboxGroupContextKey } from 'element-plus'
 
 const props = withDefaults(
   defineProps<{

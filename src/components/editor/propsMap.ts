@@ -109,7 +109,7 @@ const mapPropsToComponents: MapTypes = {
     ...defaultMap,
     component: 'icon-switch',
     initialTransform: (v: string) => v === 'italic',
-    afterTransform: (e: boolean) => (e ? 'italic' : undefined),
+    afterTransform: (e: boolean) => (e ? 'italic' : 'normal'),
     valueProp: 'checked',
     eventName: 'change',
     extraProps: { iconName: 'italic', tip: '斜体' }
