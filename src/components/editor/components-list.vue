@@ -1,7 +1,9 @@
 <script lang="ts" setup>
-import { textList, type CreateComponentType, shapeList } from './component'
-import type { Component } from 'vue'
-import { componentsDefaultProps } from './defaultProps'
+import { textList, type CreateComponentType, shapeList, imageList } from './component'
+import { Picture } from '@element-plus/icons-vue'
+import { commonUploadCheck, imageDimensions } from '@/utils'
+import { imageDefaultProps } from './component'
+import { ElMessage } from 'element-plus'
 const emit = defineEmits(['item-click'])
 
 function generateResetCSS(name: string) {
@@ -13,6 +15,21 @@ function generateResetCSS(name: string) {
 
 function onItemClick(item: CreateComponentType) {
   if (item.type != 'upload') emit('item-click', item)
+}
+
+function handleFileUpLoaded(file: File) {
+  console.log(file, 'file')
+  const data = {
+    name: 'l-image',
+    props: { ...imageDefaultProps }
+  } as CreateComponentType
+  ElMessage.success('上传成功')
+  data.props.imageSrc = URL.createObjectURL(file)
+  imageDimensions(file).then((dimension) => {
+    const maxWidth = 300
+    data.props.width = (dimension.width > maxWidth ? maxWidth : dimension.width) + 'px'
+    emit('item-click', data)
+  })
 }
 </script>
 
@@ -50,7 +67,47 @@ function onItemClick(item: CreateComponentType) {
             <span>图片</span>
           </span>
         </template>
-        图片组件
+        <uploader
+          :before-upload="commonUploadCheck"
+          @file-uploaded="
+            (file: File) => {
+              handleFileUpLoaded(file)
+            }
+          "
+        >
+          <div class="uploader-container">
+            <el-icon><Picture /></el-icon>
+            <h4>上传图片</h4>
+          </div>
+          <template #loading>
+            <div class="uploader-container">
+              <h4>上传中</h4>
+            </div>
+          </template>
+          <template #uploaded>
+            <div class="uploader-container">
+              <el-icon><Picture /></el-icon>
+              <h4>上传图片</h4>
+            </div>
+          </template>
+        </uploader>
+        <div class="image-list">
+          <div
+            v-for="(item, idx) in imageList"
+            @click="onItemClick(item)"
+            :key="idx"
+            class="component-item item-image"
+          >
+            <div class="component-wrapper">
+              <component
+                :is="item.name"
+                v-bind="item.props"
+                :style="generateResetCSS(item.name)"
+                class="inside-component"
+              ></component>
+            </div>
+          </div>
+        </div>
       </el-tab-pane>
       <el-tab-pane>
         <template #label>
@@ -93,6 +150,10 @@ function onItemClick(item: CreateComponentType) {
   vertical-align: middle;
   margin-left: 4px;
 }
+
+.tabs > .el-tabs__content {
+  padding: 0;
+}
 .component-wrapper {
   width: 100px;
   position: relative;
@@ -132,6 +193,7 @@ function onItemClick(item: CreateComponentType) {
   justify-content: center;
 }
 .create-component-list .uploader-container {
+  font-size: 18px;
   padding: 10px;
   color: #ffffff;
   background: #1890ff;

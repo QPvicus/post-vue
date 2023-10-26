@@ -1,6 +1,6 @@
 import { componentsDefaultProps } from './defaultProps'
 const textDefaultProps = componentsDefaultProps['l-text'].props
-const imageDefaultProps = componentsDefaultProps['l-image'].props
+export const imageDefaultProps = componentsDefaultProps['l-image'].props
 const shapeDefaultProps = componentsDefaultProps['l-shape'].props
 export interface CreateComponentType {
   name: string

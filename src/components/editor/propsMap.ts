@@ -153,7 +153,7 @@ const mapPropsToComponents: MapTypes = {
     valueProp: 'value',
     eventName: 'change'
   },
-  // actions
+  // actions  //TODO: ddd
   actionType: {
     ...defaultMap,
     component: 'a-select',
@@ -272,7 +272,9 @@ const mapPropsToComponents: MapTypes = {
   },
   imageSrc: {
     ...defaultMap,
-    component: 'image-processer'
+    component: 'image-process',
+    valueProp: 'value',
+    eventName: 'change'
   },
   backgroundImage: {
     ...defaultMap,

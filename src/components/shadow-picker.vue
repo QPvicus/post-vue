@@ -9,11 +9,9 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['change'])
-console.log(props.value, 'shadow-picker')
 const values = computed(() => props.value.split(' '))
 
 function updateValue(newValue: number | string, index: number | number[]) {
-  console.log(newValue, index, 'updateValue')
   const newValues = computed(() => {
     return values.value.map((item, i) => {
       if (typeof index == 'number' && i == index) {
@@ -25,7 +23,6 @@ function updateValue(newValue: number | string, index: number | number[]) {
       }
     })
   })
-  console.log(newValues.value)
   emit('change', newValues.value.join(' '))
 }
 </script>
@@ -54,7 +51,6 @@ function updateValue(newValue: number | string, index: number | number[]) {
           :max="20"
           @input="
             (v: any) => {
-              console.log('vvvvv', v)
               updateValue(v, [0, 1])
             }
           "

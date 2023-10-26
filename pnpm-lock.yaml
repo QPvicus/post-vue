@@ -11,6 +11,9 @@ dependencies:
   axios:
     specifier: ^1.5.1
     version: registry.npmmirror.com/axios@1.5.1
+  cropperjs:
+    specifier: ^1.6.1
+    version: registry.npmmirror.com/cropperjs@1.6.1
   element-plus:
     specifier: ^2.4.1
     version: registry.npmmirror.com/element-plus@2.4.1(vue@3.3.4)
@@ -1552,6 +1555,12 @@ packages:
       object-assign: registry.npmmirror.com/object-assign@4.1.1
       vary: registry.npmmirror.com/vary@1.1.2
     dev: true
+
+  registry.npmmirror.com/cropperjs@1.6.1:
+    resolution: {integrity: sha512-F4wsi+XkDHCOMrHMYjrTEE4QBOrsHHN5/2VsVAaRq8P7E5z7xQpT75S+f/9WikmBEailas3+yo+6zPIomW+NOA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/cropperjs/-/cropperjs-1.6.1.tgz}
+    name: cropperjs
+    version: 1.6.1
+    dev: false
 
   registry.npmmirror.com/cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/cross-spawn/-/cross-spawn-7.0.3.tgz}

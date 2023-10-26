@@ -8,6 +8,7 @@ import './main.css'
 import 'normalize.css'
 import 'reset-css'
 import 'element-plus/dist/index.css'
+import 'cropperjs/dist/cropper.css'
 import ElementPlus from 'element-plus'
 import 'virtual:svg-icons-register'
 // @ts-expect-error: 1

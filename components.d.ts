@@ -37,6 +37,7 @@ declare module 'vue' {
     ElCollapse: typeof import('element-plus/es')['ElCollapse']
     ElCollapseItem: typeof import('element-plus/es')['ElCollapseItem']
     ElContainer: typeof import('element-plus/es')['ElContainer']
+    ElDialog: typeof import('element-plus/es')['ElDialog']
     ElEmpty: typeof import('element-plus/es')['ElEmpty']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
@@ -60,6 +61,7 @@ declare module 'vue' {
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconSwitch: typeof import('./src/components/icon-switch.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
+    ImageProcess: typeof import('./src/components/image-process.vue')['default']
     InputEdit: typeof import('./src/components/editor/input-edit.vue')['default']
     LayerList: typeof import('./src/components/editor/layer-list.vue')['default']
     LImage: typeof import('./src/components/l-image.vue')['default']
@@ -74,6 +76,7 @@ declare module 'vue' {
     TextareaFix: typeof import('./src/components/editor/textarea-fix.vue')['default']
     TextAreaFix: typeof import('./src/components/editor/textAreaFix.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
+    Uploader: typeof import('./src/components/uploader.vue')['default']
     UserProfile: typeof import('./src/components/user-profile.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
   }

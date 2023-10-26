@@ -7,6 +7,8 @@ import ColorPicker from './color-picker.vue'
 import SvgIcon from './svg-icon.vue'
 import IconSwitch from './icon-switch.vue'
 import ShadowPicker from './shadow-picker.vue'
+import Uploader from './uploader.vue'
+import ImageProcess from './image-process.vue'
 const components: Record<string, Component> = {
   // 'l-image': LImage,
   // 'l-shape': LShape,
@@ -16,7 +18,9 @@ const components: Record<string, Component> = {
   'color-picker': ColorPicker,
   'svg-icon': SvgIcon,
   'icon-switch': IconSwitch,
-  'shadow-picker': ShadowPicker
+  'shadow-picker': ShadowPicker,
+  uploader: Uploader,
+  'image-process': ImageProcess
 }
 
 export function registerComponent(app: App) {
