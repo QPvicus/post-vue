@@ -278,7 +278,9 @@ const mapPropsToComponents: MapTypes = {
   },
   backgroundImage: {
     ...defaultMap,
-    component: 'background-processer',
+    valueProp: 'value',
+    eventName: 'change',
+    component: 'background-processor',
     initialTransform: (v: string) => {
       if (v) {
         const matches = v.match(/\((.*?)\)/)

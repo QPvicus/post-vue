@@ -19,7 +19,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['change', 'uploaded'])
-console.log('image url', props.value)
 const showModal = ref(false)
 const backgroundUrl = computed(() => `url(${props.value})`)
 const baseImageUrl = computed(() => props.value)
@@ -51,7 +50,6 @@ watch(showModal, (newVal) => {
 
 function handleConfirm() {
   const { x, y, width, height } = cropperData
-  console.log(x, y, width, height)
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')
   canvas.width = width
@@ -63,6 +61,7 @@ function handleConfirm() {
     canvas.toBlob((croppedBlob) => {
       const blobUrl = URL.createObjectURL(croppedBlob!)
       emit('change', blobUrl)
+      emit('uploaded', { url: blobUrl })
     })
   }
   showModal.value = false

@@ -131,6 +131,16 @@ console.log(finalProps.value, 'finalProps')
 #item-fontWeight {
   margin-left: 28%;
 }
+
+#item-backgroundImage {
+  width: 100%;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+#item-backgroundImage .styled-upload-component .uploader-container {
+  min-height: 200px;
+}
 .prop-component {
   width: 69%;
 }
