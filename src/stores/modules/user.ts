@@ -4,7 +4,7 @@ import { ref } from 'vue'
 
 export const useUserStore = defineStore('post-user', () => {
   const user = ref<UserProps>({
-    isLogin: false,
+    isLogin: true,
     token: localStorage.getItem('token') || '',
     data: {}
   })

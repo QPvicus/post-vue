@@ -82,6 +82,13 @@ function handleChange(data: any) {
   editorStore.updateComponent(data)
 }
 
+function titleChange(val: string) {
+  editorStore.updatePage({ key: 'title', value: val })
+  nextTick(() => {
+    // TODO: Xxx
+  })
+}
+
 watch(activePanel, (newVal) => {
   if (newVal !== 'component') {
     editorStore.setActive('')
@@ -97,7 +104,14 @@ watch(activePanel, (newVal) => {
     <el-container style="flex-direction: column">
       <el-container>
         <el-header class="header">
-          <div class="page-title">头部header</div>
+          <div class="page-title">
+            <router-link to="/">
+              <img src="" alt="Vue logo" class="logo-img" />
+            </router-link>
+            <input-edit :value="pageState.title" @change="titleChange">
+              <h4>{{ pageState.title }}</h4>
+            </input-edit>
+          </div>
         </el-header>
       </el-container>
       <el-container style="background-color: #f0f2f5">

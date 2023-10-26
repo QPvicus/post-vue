@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { emitChangeFn } from 'element-plus'
 import { computed, ref, watch } from 'vue'
 import { useClickOutside, useHotKey } from '@/hooks'
 const props = defineProps<{

@@ -17,11 +17,10 @@ const isHomePage = computed(() => route.name == 'Home')
       <el-header class="header" :class="{ 'transparent-header': isHomePage }">
         <div class="page-title">
           <router-link to="/">
-            <!-- <img alt="Vue logo" src="../assets/logo2.png" class="logo-img" /> -->
+            <img alt="Vue logo" src="../assets/logo2.png" class="logo-img" />
           </router-link>
         </div>
         <div class="right-col">
-          用户导航栏
           <user-profile :user="userInfo"></user-profile>
         </div>
       </el-header>

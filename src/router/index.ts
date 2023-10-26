@@ -5,13 +5,34 @@ import 'nprogress/nprogress.css'
 NProgress.configure({ showSpinner: false })
 import Home from '@/views/home.vue'
 import Index from '@/views/index.vue'
+import MyWork from '@/views/my-work.vue'
+import Setting from '@/views/setting.vue'
+import TemplateDetail from '@/views/template-detail.vue'
 import { useUserStore } from '@/stores'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Index',
     component: Index,
-    children: [{ path: '', name: 'Home', component: Home, meta: { title: '欢迎来到绘海报' } }]
+    children: [
+      { path: '', name: 'Home', component: Home, meta: { title: '欢迎来到绘海报' } },
+      {
+        path: 'mywork',
+        name: 'MyWork',
+        component: MyWork,
+        meta: { requiredLogin: true, title: '我的设计列表' }
+      },
+      {
+        path: 'setting',
+        name: 'Setting',
+        component: Setting,
+        meta: { requiredLogin: true, title: '我的信息' }
+      },
+      {
+        path: '/template/:id',
+        name: 'TemplateDetail', component: TemplateDetail, meta: { title: '模版详情' } name: ''
+      }
+    ]
   },
   {
     path: '/editor/:id',
