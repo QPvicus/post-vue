@@ -52,6 +52,19 @@ watch(showModal, (newVal) => {
 function handleConfirm() {
   const { x, y, width, height } = cropperData
   console.log(x, y, width, height)
+  const canvas = document.createElement('canvas')
+  const ctx = canvas.getContext('2d')
+  canvas.width = width
+  canvas.height = height
+  const image = document.createElement('img')
+  image.src = baseImageUrl.value
+  image.onload = () => {
+    ctx?.drawImage(image, x, y, width, height, 0, 0, image.width, image.height)
+    canvas.toBlob((croppedBlob) => {
+      const blobUrl = URL.createObjectURL(croppedBlob!)
+      emit('change', blobUrl)
+    })
+  }
   showModal.value = false
 }
 
