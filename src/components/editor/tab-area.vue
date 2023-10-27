@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { operationText } from './dataOperations'
+import { operationText } from '@/plugins/dataOperations'
 import { useComponentStore } from '@/stores'
 const modalVisible = ref(false)
 const editorStore = useComponentStore()
@@ -83,3 +83,4 @@ const historyIndex = computed(() => editorStore.editor.historyIndex)
   color: #1890ff;
 }
 </style>
+../../plugins/dataOperations

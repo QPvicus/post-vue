@@ -4,6 +4,7 @@ import type { ComponentData, EditProps, HistoryProps } from '../types'
 import { v4 as uuidv4 } from 'uuid'
 import { cloneDeep, isUndefined } from 'lodash'
 import { insertAt } from '@/utils'
+import type { MoveDirection } from '@/plugins/dataOperations'
 
 let globalTimeout = 0
 let cachedOldValue: any
@@ -259,6 +260,78 @@ export const useComponentStore = defineStore('post-component', () => {
     return data
   }
 
+  function moveComponent(data: { direction: MoveDirection; amount: number }) {
+    const updatedComponent = editor.components.find((c) => c.id === editor.currentElement)
+    if (updatedComponent) {
+      const oldTop = parseInt(updatedComponent.props.top)
+      const oldLeft = parseInt(updatedComponent.props.left)
+      const { direction, amount } = data
+      switch (direction) {
+        case 'Down': {
+          const newVal = oldTop + amount + 'px'
+          updateComponent({ key: 'top', value: newVal, isProps: true })
+          break
+        }
+        case 'Left': {
+          const newVal = oldLeft - amount + 'px'
+          updateComponent({ key: 'left', value: newVal, isProps: true })
+          break
+        }
+        case 'Right': {
+          const newVal = oldLeft + amount + 'px'
+          updateComponent({ key: 'left', value: newVal, isProps: true })
+          break
+        }
+        case 'Up': {
+          const newVal = oldTop - amount + 'px'
+          updateComponent({ key: 'top', value: newVal, isProps: true })
+          break
+        }
+        default:
+          break
+      }
+    }
+  }
+
+  function deleteComponent(id: string) {
+    const componentData = editor.components.find((c) => c.id === id) as ComponentData
+    const componentIndex = editor.components.findIndex((c) => c.id === id)
+    editor.components = editor.components.filter((c) => c.id !== id)
+    pushHistory(editor, {
+      id: uuidv4(),
+      componentId: componentData.id,
+      type: 'delete',
+      data: componentData,
+      index: componentIndex
+    })
+    editor.isDirty = true
+    editor.isChangedNotPublished = true
+  }
+
+  function copyComponent(id: string) {
+    const currentComponent = editor.components.find((component) => component.id === id)
+    if (currentComponent) {
+      editor.copiedComponent = currentComponent
+    }
+  }
+
+  function pastCopiedComponent() {
+    if (editor.copiedComponent) {
+      const clone = cloneDeep(editor.copiedComponent)
+      clone.id = uuidv4()
+      clone.layerName = clone.layerName + '副本'
+      editor.components.push(clone)
+      editor.isDirty = true
+      editor.isChangedNotPublished = true
+      pushHistory(editor, {
+        id: uuidv4(),
+        componentId: clone.id,
+        type: 'add',
+        data: cloneDeep(clone)
+      })
+    }
+  }
+
   return {
     editor,
     addComponentToEditor,
@@ -271,6 +344,10 @@ export const useComponentStore = defineStore('post-component', () => {
     checkRedoDisable,
     checkUndoDisable,
     undo,
-    redo
+    redo,
+    moveComponent,
+    deleteComponent,
+    copyComponent,
+    pastCopiedComponent
   }
 })

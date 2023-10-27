@@ -90,4 +90,6 @@ export interface EditProps {
   historyIndex: number
   // 当前 work 的 channels
   channels: ChannelProps[]
+  // 当前被复制的组件
+  copiedComponent?: ComponentData
 }

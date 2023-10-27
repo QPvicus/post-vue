@@ -7,6 +7,7 @@ import type { ComponentData } from '@/stores/types'
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { mapValues, pickBy } from 'lodash'
 import { imageDimensions } from '@/utils'
+import { initKeys } from '@/plugins/hotKeys'
 import { useRoute } from 'vue-router'
 
 export type TabType = 'component' | 'layer' | 'page'
@@ -23,6 +24,8 @@ const currentEditing = computed(() => editor.currentEditing)
 const activePanel = ref<TabType>('component')
 const canvasFix = ref(false)
 const currentElement = computed(() => components.value.find((c) => c.id === currentId.value))
+
+initKeys()
 const onItemCreated = (component: ComponentData) => {
   editorStore.addComponentToEditor({ id: '', name: component.name, props: { ...component.props } })
 }
