@@ -57,6 +57,20 @@ export interface PageData {
   }
 }
 
+export interface ChannelProps {
+  id: number
+  name: string
+  workId: number
+}
+
+export interface HistoryProps {
+  id: string
+  componentId?: string
+  type: 'add' | 'delete' | 'modify'
+  data: any
+  index?: number
+}
+
 export interface EditProps {
   // 页面所有组件
   components: ComponentData[]
@@ -70,4 +84,10 @@ export interface EditProps {
   isChangedNotPublished: boolean
   // 当前正在 inline editing 的组件
   currentEditing: string
+  // 当前操作的历史记录
+  histories: HistoryProps[]
+  // 当前历史记录的操作位置
+  historyIndex: number
+  // 当前 work 的 channels
+  channels: ChannelProps[]
 }

@@ -30,7 +30,9 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: '/template/:id',
-        name: 'TemplateDetail', component: TemplateDetail, meta: { title: '模版详情' } name: ''
+        name: 'TemplateDetail',
+        component: TemplateDetail,
+        meta: { title: '模版详情' }
       }
     ]
   },

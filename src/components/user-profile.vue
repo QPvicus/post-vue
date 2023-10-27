@@ -12,10 +12,10 @@ withDefaults(
 import type { UserProps } from '@/stores/types'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-
+import { useCreateDesign } from '@/hooks'
 const router = useRouter()
 
-function createDesign() {}
+const createDesign = useCreateDesign()
 
 function logout() {
   // 退出登录
@@ -41,7 +41,7 @@ function logout() {
     登录
   </el-button>
   <div :class="{ 'user-operation': !smMode }" v-else>
-    <el-button round type="primary" @click="createDesign" v-if="!smMode"> 创建设计 </el-button>
+    <el-button round type="primary" v-if="!smMode" @click="createDesign"> 创建设计 </el-button>
     <el-button
       round
       type="primary"

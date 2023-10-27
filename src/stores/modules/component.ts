@@ -31,8 +31,19 @@ export const useComponentStore = defineStore('post-component', () => {
     currentElement: '',
     isChangedNotPublished: false,
     isDirty: false,
-    currentEditing: ''
+    currentEditing: '',
+    channels: [],
+    histories: [],
+    historyIndex: -1
   })
+
+  function resetEditor() {
+    editor.components = []
+    editor.page = { props: pageDefaultProps, setting: {} }
+    editor.histories = []
+    editor.isDirty = false
+    editor.isChangedNotPublished = false
+  }
 
   function addComponentToEditor(component: ComponentData) {
     component.id = uuidv4()
@@ -94,5 +105,49 @@ export const useComponentStore = defineStore('post-component', () => {
     editor.currentEditing = id
   }
 
-  return { editor, addComponentToEditor, updateComponent, setActive, setEditing, updatePage }
+  async function getWork(id: string) {
+    const tm = {
+      _id: '653b0c5cb750ee0fbd3028df',
+      isTemplate: false,
+      copiedCount: 0,
+      status: 1,
+      channels: [],
+      title: '未命名作品',
+      desc: '未命名作品',
+      coverImg:
+        'http://typescript-vue.oss-cn-beijing.aliyuncs.com/vue-marker/5f81cca3f3bf7a0e1ebaf885.png',
+      user: '65276d463c02c3488c82e694',
+      author: '13175087561',
+      uuid: 'NpgrJZ',
+      createdAt: '2023-10-27T01:03:24.776Z',
+      updatedAt: '2023-10-27T01:03:24.776Z',
+      id: 6243,
+      __v: 0
+    }
+    const data = await new Promise((resolve) => {
+      resolve(tm)
+    })
+    //@ts-ignore
+    const { content, ...rest } = data
+    editor.page = { ...editor.page, ...rest }
+    if (content && content.props) {
+      editor.page.props = { ...editor.page.props, ...content.props }
+    }
+    if (content && content.setting) {
+      editor.page.setting = { ...editor.page.setting, ...content.setting }
+    }
+    editor.components = content.components
+    return data
+  }
+
+  return {
+    editor,
+    addComponentToEditor,
+    updateComponent,
+    setActive,
+    setEditing,
+    updatePage,
+    resetEditor,
+    getWork
+  }
 })

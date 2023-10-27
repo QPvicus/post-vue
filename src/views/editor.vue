@@ -4,10 +4,14 @@ import TabArea from '@/components/editor/tab-area.vue'
 import EditWrapper from '@/components/editor/edit-wrapper.vue'
 import { useUserStore, useComponentStore } from '@/stores'
 import type { ComponentData } from '@/stores/types'
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { mapValues, pickBy } from 'lodash'
+import { imageDimensions } from '@/utils'
+import { useRoute } from 'vue-router'
 
 export type TabType = 'component' | 'layer' | 'page'
+const route = useRoute()
+const currentWorkId = route.params.id
 const userStore = useUserStore()
 const editorStore = useComponentStore()
 const editor = editorStore.editor
@@ -89,9 +93,31 @@ function titleChange(val: string) {
   })
 }
 
+function adjustHeightOnUpload(event: any) {
+  console.log('event', event)
+  if (event.key === 'backgroundImage') {
+    imageDimensions(event.data).then((dimension) => {
+      console.log(dimension.height, dimension.width, 'ssss')
+      const maxWidth = 375
+      const rate = dimension.height / dimension.width
+      if (rate > 1) {
+        editorStore.updatePage({ key: 'height', value: rate * maxWidth + 'px', level: 'props' })
+      }
+    })
+  }
+}
+
 watch(activePanel, (newVal) => {
   if (newVal !== 'component') {
     editorStore.setActive('')
+  }
+})
+
+onMounted(() => {
+  editorStore.resetEditor()
+  if (currentWorkId) {
+    console.log('currentWorkId', currentWorkId)
+    editorStore.getWork(currentWorkId as string)
   }
 })
 </script>
@@ -177,6 +203,7 @@ watch(activePanel, (newVal) => {
                   :props="pageState.props"
                   mutationName="updatePage"
                   :mutationExtraData="{ level: 'props' }"
+                  @updated="adjustHeightOnUpload"
                 ></props-table>
               </div>
             </el-tab-pane>
