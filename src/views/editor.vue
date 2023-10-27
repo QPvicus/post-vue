@@ -245,6 +245,7 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   position: relative;
+  overflow: hidden;
 }
 .preview-list {
   padding: 0;

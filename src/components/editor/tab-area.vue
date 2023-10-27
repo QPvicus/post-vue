@@ -1,38 +1,52 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { operationText } from './dataOperations'
+import { useComponentStore } from '@/stores'
 const modalVisible = ref(false)
+const editorStore = useComponentStore()
+const histories = computed(() => editorStore.editor.histories)
+const historyIndex = computed(() => editorStore.editor.historyIndex)
 </script>
 
 <template>
   <div class="history-area">
-    <!-- <a-modal title="快捷键操作" v-model:visible="modalVisible" :footer="null" width="400px">
+    <el-dialog title="快捷键操作" v-model="modalVisible" width="400px">
       <ul class="shortcut-list">
         <li v-for="(item, key) in operationText" :key="key" class="shortcut-list-item">
           <span class="text">{{ item.text }}</span> <span class="bold">{{ item.shortcut }}</span>
         </li>
       </ul>
-    </a-modal> -->
-    <!-- <div class="operation-list">
-      <a-tooltip>
-        <template #title> 快捷键提示 </template>
-        <a-button shape="circle" @click="modalVisible = true">
-          <template #icon><QuestionOutlined /> </template>
-        </a-button>
-      </a-tooltip>
-      <a-tooltip>
-        <template #title> 撤销 </template>
-        <a-button shape="circle">
-          <template #icon><UndoOutlined /> </template>
-        </a-button>
-      </a-tooltip>
-      <a-tooltip>
-        <template #title> 重做 </template>
-        <a-button shape="circle">
-          <template #icon><RedoOutlined /> </template>
-        </a-button>
-      </a-tooltip>
-    </div> -->
+    </el-dialog>
+    <div class="operation-list">
+      <el-tooltip>
+        <template #content> 快捷键提示 </template>
+        <el-button circle @click="modalVisible = true">
+          <template #icon>
+            <svg-icon name="question"></svg-icon>
+          </template>
+        </el-button>
+      </el-tooltip>
+      <el-tooltip>
+        <template #content> 撤销 </template>
+        <el-button
+          circle
+          @click="() => editorStore.undo()"
+          :disabled="editorStore.checkUndoDisable"
+        >
+          <template #icon>
+            <svg-icon name="undo"></svg-icon>
+          </template>
+        </el-button>
+      </el-tooltip>
+      <el-tooltip>
+        <template #content> 重做 </template>
+        <el-button circle @click="editorStore.redo()" :disabled="editorStore.checkRedoDisable">
+          <template #icon>
+            <svg-icon name="redo"></svg-icon>
+          </template>
+        </el-button>
+      </el-tooltip>
+    </div>
   </div>
 </template>
 
@@ -60,7 +74,7 @@ const modalVisible = ref(false)
   color: rgba(0, 0, 0, 0.45);
 }
 .operation-list button {
-  margin-left: 10px;
+  margin-left: 10px !important;
 }
 .history-area .bold {
   font-weight: bold;
