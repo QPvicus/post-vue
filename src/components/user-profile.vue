@@ -40,7 +40,7 @@ function logout() {
   >
     登录
   </el-button>
-  <div :class="{ 'user-operation': !smMode }" v-else>
+  <div :class="{ 'user-operation': !smMode}" class="middle" v-else>
     <el-button round type="primary" v-if="!smMode" @click="createDesign"> 创建设计 </el-button>
     <el-button
       round
@@ -68,5 +68,10 @@ function logout() {
 <style>
 .user-operation > * {
   margin-left: 30px !important;
+}
+
+.middle {
+  display: flex;
+  align-items: center;
 }
 </style>

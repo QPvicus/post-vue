@@ -159,6 +159,7 @@ function itemEdit() {
     :style="styleProps"
     @click="itemClick"
     @dblclick="itemEdit"
+    :data-component-id="id"
   >
     <div class="move-wrapper" ref="moveWrapper" @mousedown="startMove">
       <slot />

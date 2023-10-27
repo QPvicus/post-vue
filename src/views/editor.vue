@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import ContextMenu from '@/components/context-menu.vue'
 import ComponentsList from '@/components/editor/components-list.vue'
 import TabArea from '@/components/editor/tab-area.vue'
 import EditWrapper from '@/components/editor/edit-wrapper.vue'
@@ -130,6 +131,8 @@ onMounted(() => {
     <!-- <a-drawer placement="right" :width="400" title="设置面板">
       <p>内容1.。。。</p>
     </a-drawer> -->
+    <context-menu>
+    </context-menu>
     <el-container style="flex-direction: column">
       <el-container>
         <el-header class="header">
@@ -141,6 +144,27 @@ onMounted(() => {
               <h4>{{ pageState.title }}</h4>
             </input-edit>
           </div>
+          <!-- <div style="flex: 1"></div> -->
+          <el-menu
+            mode="horizontal"
+            style="height: 64px"
+            background-color="#001529"
+            :ellipsis="false"
+            class="menu"
+          >
+            <el-menu-item>
+              <el-button round type="primary">预览和设置</el-button>
+            </el-menu-item>
+            <el-menu-item>
+              <el-button round type="primary">保存</el-button>
+            </el-menu-item>
+            <el-menu-item>
+              <el-button round type="primary">发布</el-button>
+            </el-menu-item>
+            <el-menu-item>
+              <user-profile :user="userInfo" smMode></user-profile>
+            </el-menu-item>
+          </el-menu>
         </el-header>
       </el-container>
       <el-container style="background-color: #f0f2f5">
@@ -200,7 +224,7 @@ onMounted(() => {
                 @change="handleChange"
               ></layer-list>
             </el-tab-pane>
-            <el-tab-pane label="背景设置">
+            <el-tab-pane label="页面设置">
               <div class="page-settings">
                 <props-table
                   :props="pageState.props"
@@ -235,6 +259,12 @@ onMounted(() => {
 .header h4 {
   color: #ffffff;
 }
+
+.menu {
+  display: flex;
+  align-items: center;
+}
+
 .editor-spinner {
   position: fixed;
   right: 50%;
