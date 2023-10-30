@@ -5,14 +5,16 @@ import TabArea from '@/components/editor/tab-area.vue'
 import EditWrapper from '@/components/editor/edit-wrapper.vue'
 import { useUserStore, useComponentStore } from '@/stores'
 import type { ComponentData } from '@/stores/types'
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { mapValues, pickBy } from 'lodash'
 import { imageDimensions } from '@/utils'
 import { initKeys } from '@/plugins/hotKeys'
 import { useRoute } from 'vue-router'
+import { ElMessage } from 'element-plus'
 
 export type TabType = 'component' | 'layer' | 'page'
 const route = useRoute()
+const visible = ref(true)
 const currentWorkId = route.params.id
 const userStore = useUserStore()
 const editorStore = useComponentStore()
@@ -22,9 +24,14 @@ const components = computed(() => editor.components)
 const pageState = computed(() => editor.page)
 const currentId = computed(() => editor.currentElement)
 const currentEditing = computed(() => editor.currentEditing)
+const isDirty = computed(() => editor.isDirty)
 const activePanel = ref<TabType>('component')
 const canvasFix = ref(false)
 const currentElement = computed(() => components.value.find((c) => c.id === currentId.value))
+const isPublishing = ref(false)
+const isSaving = ref(false)
+
+let timer: any
 
 initKeys()
 const onItemCreated = (component: ComponentData) => {
@@ -111,6 +118,39 @@ function adjustHeightOnUpload(event: any) {
   }
 }
 
+async function publishWork() {
+  isPublishing.value = true
+  // try {
+  // } catch (e) {
+  //   console.log(e)
+  // } finally {
+  // }
+  setTimeout(() => {
+    isPublishing.value = false
+  }, 1000)
+}
+
+function saveWork(showMessage = false) {
+  isSaving.value = true
+  return editorStore
+    .saveWork({ id: currentWorkId })
+    .then(() => {
+      if (showMessage)
+        ElMessage({
+          message: '保存成功',
+          duration: 2000,
+          type: 'success'
+        })
+    })
+    .finally(() => {
+      isSaving.value = false
+    })
+}
+
+function previewWork() {
+  saveWork(true).then(() => (visible.value = true))
+}
+
 watch(activePanel, (newVal) => {
   if (newVal !== 'component') {
     editorStore.setActive('')
@@ -120,19 +160,32 @@ watch(activePanel, (newVal) => {
 onMounted(() => {
   editorStore.resetEditor()
   if (currentWorkId) {
-    console.log('currentWorkId', currentWorkId)
     editorStore.getWork(currentWorkId as string)
   }
+
+  timer = setInterval(() => {
+    if (isDirty.value) saveWork()
+  }, 1000 * 30)
+})
+
+onUnmounted(() => {
+  clearInterval(timer)
 })
 </script>
 
 <template>
   <div class="editor" id="editor-layout-main">
-    <!-- <a-drawer placement="right" :width="400" title="设置面板">
-      <p>内容1.。。。</p>
-    </a-drawer> -->
-    <context-menu>
-    </context-menu>
+    <el-drawer direction="rtl" :size="400" title="设置面板" v-model="visible">
+      <publish-form
+        :isPublishing="isPublishing"
+        :isSaving="isSaving"
+        @panel-close="visible = false"
+        @trigger-publish="publishWork"
+        @trigger-save="saveWork(true)"
+      >
+      </publish-form>
+    </el-drawer>
+    <context-menu> </context-menu>
     <el-container style="flex-direction: column">
       <el-container>
         <el-header class="header">
@@ -153,13 +206,17 @@ onMounted(() => {
             class="menu"
           >
             <el-menu-item>
-              <el-button round type="primary">预览和设置</el-button>
+              <el-button round type="primary" @click="previewWork">预览和设置</el-button>
             </el-menu-item>
             <el-menu-item>
-              <el-button round type="primary">保存</el-button>
+              <el-button round type="primary" @click="saveWork(true)" :loading="isSaving"
+                >保存</el-button
+              >
             </el-menu-item>
             <el-menu-item>
-              <el-button round type="primary">发布</el-button>
+              <el-button round type="primary" @click="publishWork" :loading="isPublishing"
+                >发布</el-button
+              >
             </el-menu-item>
             <el-menu-item>
               <user-profile :user="userInfo" smMode></user-profile>

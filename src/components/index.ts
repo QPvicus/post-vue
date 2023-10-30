@@ -8,6 +8,7 @@ import Uploader from './uploader.vue'
 import ImageProcess from './image-process.vue'
 import BackgroundProcessor from './background-processor.vue'
 import StyledUploader from './styled-uploader.vue'
+import PublishForm from './publish-form.vue'
 const components: Record<string, Component> = {
   'textarea-fix': TextareaFix,
   'color-picker': ColorPicker,
@@ -17,7 +18,8 @@ const components: Record<string, Component> = {
   uploader: Uploader,
   'image-process': ImageProcess,
   'background-processor': BackgroundProcessor,
-  'styled-uploader': StyledUploader
+  'styled-uploader': StyledUploader,
+  'publish-form': PublishForm
 }
 
 export function registerComponent(app: App) {

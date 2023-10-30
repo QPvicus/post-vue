@@ -260,6 +260,30 @@ export const useComponentStore = defineStore('post-component', () => {
     return data
   }
 
+  async function saveWork(payload: any) {
+    const { id, data } = payload
+    if (data) {
+      //
+    } else {
+      const { title, desc, props, coverImg, setting } = editor.page
+      const postData = {
+        title,
+        desc,
+        coverImg,
+        content: {
+          components: editor.components,
+          props,
+          setting
+        }
+      }
+
+      await new Promise((resolve) => resolve(1))
+      // post api  works/id
+      editor.isDirty = false
+      editor.page.updatedAt = new Date().toISOString()
+    }
+  }
+
   function moveComponent(data: { direction: MoveDirection; amount: number }) {
     const updatedComponent = editor.components.find((c) => c.id === editor.currentElement)
     if (updatedComponent) {
@@ -341,6 +365,7 @@ export const useComponentStore = defineStore('post-component', () => {
     updatePage,
     resetEditor,
     getWork,
+    saveWork,
     checkRedoDisable,
     checkUndoDisable,
     undo,
