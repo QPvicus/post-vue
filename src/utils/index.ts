@@ -1,4 +1,5 @@
 import { ElMessage } from 'element-plus'
+import { map } from 'lodash'
 
 export function isMobile(mobile: string) {
   return /^1[3-9]\d{9}$/.test(mobile)
@@ -80,4 +81,8 @@ export function clickInsideElement(e: Event, className: string) {
     }
   }
   return false
+}
+
+export const objToQueryString = (queryObj: { ['string']: any }) => {
+  return map(queryObj, (value: any, key: string) => `${key}=${value}`).join('&')
 }

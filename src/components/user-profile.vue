@@ -19,7 +19,6 @@ const createDesign = useCreateDesign()
 
 function logout() {
   // 退出登录
-  // message.success('退出登录册成功，2秒后跳转到首页', 2)
   ElMessage({
     message: '退出登录成功,2秒后跳转到首页',
     duration: 2,
@@ -40,7 +39,7 @@ function logout() {
   >
     登录
   </el-button>
-  <div :class="{ 'user-operation': !smMode}" class="middle" v-else>
+  <div :class="{ 'user-operation': !smMode }" class="middle" v-else>
     <el-button round type="primary" v-if="!smMode" @click="createDesign"> 创建设计 </el-button>
     <el-button
       round
@@ -57,6 +56,9 @@ function logout() {
       </el-button>
       <template #dropdown>
         <el-dropdown-menu>
+          <el-dropdown-item @click="router.push('/mywork')" v-if="smMode"
+            >我的作品</el-dropdown-item
+          >
           <el-dropdown-item @click="router.push('/setting')">个人设置</el-dropdown-item>
           <el-dropdown-item @click="logout">登出</el-dropdown-item>
         </el-dropdown-menu>

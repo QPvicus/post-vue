@@ -2,6 +2,8 @@ import { defineStore } from 'pinia'
 import type { PageData } from '../types'
 import { reactive } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
+import { objToQueryString } from '@/utils'
+import { works } from './mockData'
 export type WorkProp = Required<Omit<PageData, 'props' | 'setting'>> & {
   barcodeUrl?: string
 }
@@ -52,8 +54,25 @@ export const useWorkStore = defineStore('post-work', () => {
     work.works.unshift(data)
     return data
   }
+
+  async function fetchWorks(opt = { pageIndex: 0, pageSize: 8, title: '' } as any) {
+    if (!opt.title) {
+      delete opt.title
+    }
+
+    const queryString = objToQueryString(opt)
+    await new Promise((resolve) => resolve(1))
+    const extraData = { pageIndex: opt.pageIndex, searchText: opt.title }
+    const { pageIndex, searchText } = extraData
+    const { list, count } = works.data
+    work.works = list
+    work.totalWorks = count
+    work.searchText = searchText || ''
+    return works
+  }
   return {
     work,
-    createWork
+    createWork,
+    fetchWorks
   }
 })

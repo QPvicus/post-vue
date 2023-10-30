@@ -14,7 +14,7 @@ import { ElMessage } from 'element-plus'
 
 export type TabType = 'component' | 'layer' | 'page'
 const route = useRoute()
-const visible = ref(true)
+const visible = ref(false)
 const currentWorkId = route.params.id
 const userStore = useUserStore()
 const editorStore = useComponentStore()

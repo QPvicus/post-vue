@@ -89,5 +89,6 @@ declare module 'vue' {
     Uploader: typeof import('./src/components/uploader.vue')['default']
     UserProfile: typeof import('./src/components/user-profile.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
+    WorkList: typeof import('./src/components/work-list.vue')['default']
   }
 }
