@@ -30,6 +30,8 @@ const listWithBarcode = computed(() => {
   })
 })
 
+console.log(listWithBarcode.value)
+
 function copy(id: string) {
   emit('on-copy', id)
 }
@@ -54,11 +56,13 @@ const saveImg = (id: string) => {
     <el-row :gutter="16">
       <el-col :span="6" v-for="item in listWithBarcode" :key="item.id" class="col-item">
         <el-card shadow="hover" class="card-item" style="position: relative">
-          <img :src="item.coverImg" v-if="item.coverImg" />
-          <img
-            src="http://typescript-vue.oss-cn-beijing.aliyuncs.com/vue-marker/5f81cca3f3bf7a0e1ebaf885.png"
-            v-else
-          />
+          <div class="card-cover">
+            <img :src="item.coverImg" v-if="item.coverImg" />
+            <img
+              src="http://typescript-vue.oss-cn-beijing.aliyuncs.com/vue-marker/5f81cca3f3bf7a0e1ebaf885.png"
+              v-else
+            />
+          </div>
           <div class="footer" style="padding: 10px">
             <div class="text">{{ item.title }}</div>
           </div>
@@ -104,6 +108,10 @@ const saveImg = (id: string) => {
             </div>
           </div>
         </el-card>
+        <div class="tag">
+          <el-tag round effect="plain" type="" v-if="item.status === '1'">未发布</el-tag>
+          <el-tag round effect="plain" type="success" v-else>已发布</el-tag>
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -135,10 +143,10 @@ const saveImg = (id: string) => {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  transition: 0.2 all ease;
+  transition: all 0.2s ease;
 }
 .col-item:hover .hover-item {
-  display: block;
+  display: flex;
 }
 
 .icon-footer {
@@ -154,5 +162,19 @@ const saveImg = (id: string) => {
 
 :deep(.el-tooltip__trigger:focus-visible) {
   outline: unset;
+}
+
+.col-item {
+  position: relative;
+  margin-bottom: 20px;
+}
+.col-item .el-card {
+  border-radius: 12px;
+}
+
+.tag {
+  position: absolute;
+  top: -1px;
+  left: 4px;
 }
 </style>
