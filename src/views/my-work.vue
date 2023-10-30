@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useComponentStore, useStatusStore, useWorkStore } from '@/stores'
+import { useStatusStore, useWorkStore } from '@/stores'
 import { computed, onMounted, ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 import { useCreateDesign } from '@/hooks'
@@ -64,6 +64,8 @@ onMounted(() => {
         创建你的第一个设计 🎉
       </el-button>
     </el-empty>
+
+    <work-list :list="works"> </work-list>
   </div>
 </template>
 

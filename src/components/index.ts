@@ -9,6 +9,7 @@ import ImageProcess from './image-process.vue'
 import BackgroundProcessor from './background-processor.vue'
 import StyledUploader from './styled-uploader.vue'
 import PublishForm from './publish-form.vue'
+import WorkList from './work-list.vue'
 const components: Record<string, Component> = {
   'textarea-fix': TextareaFix,
   'color-picker': ColorPicker,
@@ -19,7 +20,8 @@ const components: Record<string, Component> = {
   'image-process': ImageProcess,
   'background-processor': BackgroundProcessor,
   'styled-uploader': StyledUploader,
-  'publish-form': PublishForm
+  'publish-form': PublishForm,
+  'work-list': WorkList
 }
 
 export function registerComponent(app: App) {
