@@ -1,19 +1,22 @@
 <script lang="ts" setup>
-import { useStatusStore, useWorkStore } from '@/stores'
+import { useComponentStore, useStatusStore, useWorkStore } from '@/stores'
 import { computed, onMounted, ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 import { useCreateDesign } from '@/hooks'
+import { useRouter } from 'vue-router'
 defineProps<{
   modelValue?: boolean
 }>()
 
+const router = useRouter()
 const statusStore = useStatusStore()
-const workEditor = useWorkStore()
+const workStore = useWorkStore()
+const editorStore = useComponentStore()
 const createDesign = useCreateDesign()
-const works = computed(() => workEditor.work.works)
-const total = computed(() => workEditor.work.totalWorks)
+const works = computed(() => workStore.work.works)
+const total = computed(() => workStore.work.totalWorks)
 const searchText = ref('')
-const currentSearchText = computed(() => workEditor.work.searchText)
+const currentSearchText = computed(() => workStore.work.searchText)
 const loading = computed(() => statusStore.status.loading)
 const currentPage = ref(1)
 const isTemplate = ref(0)
@@ -26,8 +29,18 @@ function onSearch() {
 
 function changeCategory() {}
 
+function onCopy(id: string) {
+  editorStore.copyWork(id).then((data) => {
+    // router.push(`/editor/${id}`)
+  })
+}
+
+function onDelete(id: string) {
+  workStore.deleteWork(id)
+}
+
 onMounted(() => {
-  workEditor.fetchWorks()
+  workStore.fetchWorks()
 })
 </script>
 
@@ -65,7 +78,18 @@ onMounted(() => {
       </el-button>
     </el-empty>
 
-    <work-list :list="works"> </work-list>
+    <work-list :list="works" @on-copy="onCopy" @on-delete="onDelete"> </work-list>
+
+    <el-col :offset="12">
+      <el-pagination
+        background
+        layout="prev,pager,next"
+        :total="total"
+        :page-size="8"
+        :current-page="currentPage"
+      >
+      </el-pagination>
+    </el-col>
   </div>
 </template>
 

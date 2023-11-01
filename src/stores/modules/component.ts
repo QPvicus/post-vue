@@ -284,6 +284,11 @@ export const useComponentStore = defineStore('post-component', () => {
     }
   }
 
+  async function copyWork(id: string) {
+    // await /works/copy/${id}
+    editor.page.updatedAt = new Date().toISOString()
+  }
+
   function moveComponent(data: { direction: MoveDirection; amount: number }) {
     const updatedComponent = editor.components.find((c) => c.id === editor.currentElement)
     if (updatedComponent) {
@@ -366,6 +371,7 @@ export const useComponentStore = defineStore('post-component', () => {
     resetEditor,
     getWork,
     saveWork,
+    copyWork,
     checkRedoDisable,
     checkUndoDisable,
     undo,

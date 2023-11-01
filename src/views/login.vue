@@ -1,13 +1,15 @@
 <script lang="ts" setup>
 import { computed, reactive, ref, toRaw, watch } from 'vue'
 import { isMobile } from '@/utils'
-import { useStatusStore } from '@/stores'
+import { useStatusStore, useUserStore } from '@/stores'
 import { useRouter } from 'vue-router'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
 import { User, View } from '@element-plus/icons-vue'
+import axios from 'axios'
 
 const router = useRouter()
 const statusStore = useStatusStore()
+const userStore = useUserStore()
 const counter = ref(60)
 const form = reactive({
   username: '13912345678',
@@ -47,26 +49,44 @@ const login = () => {
   if (!ruleFormRef.value) return
   ruleFormRef.value.validate((valid) => {
     if (valid) {
-      ElMessage({
-        message: '登录成功 2秒后跳转到首页',
-        type: 'success',
-        duration: 2000
-      })
-      setTimeout(() => {
-        router.push('/')
-      }, 2000)
+      const payload = {
+        phoneNumber: form.username,
+        veriCode: form.password
+      }
+      userStore
+        .loginAndFetch(payload)
+        .then(() => {
+          ElMessage({
+            message: '登录成功 2秒后跳转到首页',
+            type: 'success',
+            duration: 2000
+          })
+          setTimeout(() => {
+            router.push('/')
+          }, 2000)
+        })
+        .catch((e) => {
+          ElMessage.warning('登录失败')
+        })
     } else return false
   })
 }
 
 const getCode = () => {
   // api
-  ElMessage({
-    message: '验证码已发送,请注意查收',
-    duration: 5000,
-    type: 'success'
-  })
-  startCounter()
+  axios
+    .post('/users/genVeriCode', { phoneNumber: form.username, isRemoteTest: true })
+    .then((data) => {
+      ElMessage({
+        message: '验证码已发送,请注意查收',
+        duration: 5000,
+        type: 'success'
+      })
+      startCounter()
+    })
+    .catch((e) => {
+      ElMessage.warning('发送验证码失败')
+    })
 }
 
 watch(counter, (newVal) => {

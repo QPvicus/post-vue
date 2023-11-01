@@ -4,6 +4,7 @@ import { reactive } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import { objToQueryString } from '@/utils'
 import { works } from './mockData'
+import axios, { type AxiosRequestConfig } from 'axios'
 export type WorkProp = Required<Omit<PageData, 'props' | 'setting'>> & {
   barcodeUrl?: string
 }
@@ -70,9 +71,20 @@ export const useWorkStore = defineStore('post-work', () => {
     work.searchText = searchText || ''
     return works
   }
+
+  async function deleteWork(id: string) {
+    // const newConfig: AxiosRequestConfig & { mutationName: string } = {
+    //   method: 'delete',
+    //   mutationName: 'deleteWork'
+    // }
+    // const { data } = await axios(`/works/${id}`, newConfig)
+    await new Promise((res) => res(200))
+    work.works = work.works.filter((w) => w.id != id)
+  }
   return {
     work,
     createWork,
-    fetchWorks
+    fetchWorks,
+    deleteWork
   }
 })

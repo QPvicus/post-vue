@@ -14,8 +14,14 @@ import 'virtual:svg-icons-register'
 // @ts-expect-error: 1
 import lego from 'lego-components'
 import 'lego-components/dist/lego-components.css'
-const app = createApp(App)
+import axios from 'axios'
 
+export const baseBackendURL = `https://api.imooc-lego.com`
+
+// axios.defaults.baseURL = `https://api.imooc-lego.com`
+axios.defaults.baseURL = `http://localhost:3000/api`
+
+const app = createApp(App)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
