@@ -13,12 +13,14 @@ import type { UserProps } from '@/stores/types'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { useCreateDesign } from '@/hooks'
+import { useUserStore } from '@/stores'
 const router = useRouter()
 
 const createDesign = useCreateDesign()
-
+const store = useUserStore()
 function logout() {
   // 退出登录
+  store.logout()
   ElMessage({
     message: '退出登录成功,2秒后跳转到首页',
     duration: 2,
@@ -34,7 +36,7 @@ function logout() {
   <el-button
     type="primary"
     v-if="!user.isLogin"
-    @click="$router.push('/login')"
+    @click="router.push('/login')"
     class="user-profile-component"
   >
     登录

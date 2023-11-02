@@ -9,6 +9,7 @@ import MyWork from '@/views/my-work.vue'
 import Setting from '@/views/setting.vue'
 import TemplateDetail from '@/views/template-detail.vue'
 import { useUserStore } from '@/stores'
+import { computed } from 'vue'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -68,6 +69,8 @@ const whiteList = ['/login', '/login/back']
 router.beforeEach((to, from, next) => {
   NProgress.start()
   const store = useUserStore()
+  const isLogin = computed(() => store.user.isLogin)
+  console.log('isLogin', isLogin.value, to, from)
   const { requiredLogin, redirectAlreadyLogin, title } = to.meta
   if (title) {
     //@ts-expect-error: 1
@@ -76,9 +79,40 @@ router.beforeEach((to, from, next) => {
   if (!store.user.isLogin) {
     if (store.user.token) {
       axios.defaults.headers.common.Authorization = `Bearer ${store.user.token}`
+      store
+        .fetchCurrentUser()
+        .then((data: any) => {
+          console.log(data, 'datattat')
+          if (redirectAlreadyLogin) {
+            next('/')
+          } else {
+            if (data.errno !== 0) {
+              store.logout()
+              next('login')
+            } else {
+              next()
+            }
+          }
+        })
+        .catch((e) => {
+          console.log(e)
+          store.logout()
+          next('login')
+        })
+    } else {
+      if (requiredLogin) {
+        next('login')
+      } else {
+        next()
+      }
+    }
+  } else {
+    if (redirectAlreadyLogin) {
+      next('/')
+    } else {
+      next()
     }
   }
-  next()
 })
 
 router.afterEach((to) => {

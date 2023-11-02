@@ -88,6 +88,7 @@ declare module 'vue' {
     StyledUploader: typeof import('./src/components/styled-uploader.vue')['default']
     SvgIcon: typeof import('./src/components/svg-icon.vue')['default']
     TabArea: typeof import('./src/components/editor/tab-area.vue')['default']
+    TemplateList: typeof import('./src/components/template-list.vue')['default']
     TextareaFix: typeof import('./src/components/editor/textarea-fix.vue')['default']
     TextAreaFix: typeof import('./src/components/editor/textAreaFix.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']

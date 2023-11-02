@@ -90,7 +90,7 @@ onMounted(() => {})
         <el-button type="primary" size="large" :loading="loading"> 加载更多 </el-button>
       </el-row>
       <div class="my-works" v-if="isLogin && works.length > 0">
-        <el-row justify="space-between" align="middle" class="content-title">
+        <el-row style="justify-content: space-between" class="content-title">
           <h2>我的作品</h2>
           <router-link to="/mywork">查看我的所有作品</router-link>
         </el-row>
