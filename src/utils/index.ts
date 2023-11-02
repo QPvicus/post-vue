@@ -1,6 +1,8 @@
 import { ElMessage } from 'element-plus'
 import { map } from 'lodash'
 import { saveAs } from 'file-saver'
+import html2canvas from 'html2canvas'
+import axios from 'axios'
 export function isMobile(mobile: string) {
   return /^1[3-9]\d{9}$/.test(mobile)
 }
@@ -11,6 +13,14 @@ interface CheckCondition {
 }
 
 type ErrorType = 'size' | 'format' | null
+
+export interface UploadImgProps {
+  data: {
+    urls: string[]
+  }
+  errno: number
+  file: File
+}
 
 export function beforeUploadCheck(file: File, condition: CheckCondition) {
   const { size, format } = condition
@@ -90,4 +100,34 @@ export const objToQueryString = (queryObj: { ['string']: any }) => {
 export const downloadImage = (url: string) => {
   const fileName = url.substring(url.lastIndexOf('/') + 1)
   saveAs(url, fileName)
+}
+
+export const takeScreenshotAndUpload = (id: string) => {
+  const el = document.getElementById(id) as HTMLElement
+  return html2canvas(el, { allowTaint: false, useCORS: true, width: 375 }).then((canvas) => {
+    return new Promise<UploadImgProps>((resolve, reject) => {
+      canvas.toBlob((data) => {
+        if (data) {
+          const newFile = new File([data], 'screenshot.png')
+          const formData = new FormData()
+          formData.append('file', newFile)
+          axios
+            .post('/utils/upload-img', formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              },
+              timeout: 5000
+            })
+            .then((data) => {
+              resolve(data.data)
+            })
+            .catch((err) => {
+              reject(err)
+            })
+        } else {
+          reject(new Error('blob data error'))
+        }
+      }, 'image/png')
+    })
+  })
 }

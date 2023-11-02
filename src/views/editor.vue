@@ -7,7 +7,7 @@ import { useUserStore, useComponentStore } from '@/stores'
 import type { ComponentData } from '@/stores/types'
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { mapValues, pickBy } from 'lodash'
-import { imageDimensions } from '@/utils'
+import { imageDimensions, takeScreenshotAndUpload } from '@/utils'
 import { initKeys } from '@/plugins/hotKeys'
 import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
@@ -120,14 +120,16 @@ function adjustHeightOnUpload(event: any) {
 
 async function publishWork() {
   isPublishing.value = true
-  // try {
-  // } catch (e) {
-  //   console.log(e)
-  // } finally {
-  // }
-  setTimeout(() => {
+  try {
+    await takeScreenUpdate()
+  } catch (e) {
+    console.log(e)
+  } finally {
+    // TODO:
+    editorStore.saveAndPublishWork({id: currentWorkId as string})
+    visible.value = true
     isPublishing.value = false
-  }, 1000)
+  }
 }
 
 function saveWork(showMessage = false) {
@@ -149,6 +151,28 @@ function saveWork(showMessage = false) {
 
 function previewWork() {
   saveWork(true).then(() => (visible.value = true))
+}
+
+const takeScreenUpdate = async (checkSave = false) => {
+  // remove select condition
+  editorStore.setActive('')
+  activePanel.value = 'component'
+  // remove box shadow to fix html2canvas issue
+  canvasFix.value = true
+  await nextTick()
+  try {
+    const rawData = await takeScreenshotAndUpload('canvas-area')
+    if (rawData) {
+      editorStore.updatePage({ key: 'coverImg', value: rawData.data.urls[0] })
+    }
+  } catch (e) {
+    console.error(e)
+  } finally {
+    canvasFix.value = false
+    if (checkSave) {
+      saveWork()
+    }
+  }
 }
 
 watch(activePanel, (newVal) => {

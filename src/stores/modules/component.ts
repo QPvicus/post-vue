@@ -289,6 +289,20 @@ export const useComponentStore = defineStore('post-component', () => {
     editor.page.updatedAt = new Date().toISOString()
   }
 
+  async function saveAndPublishWork(payload: { id: string }) {
+    const { id } = editor.page
+    return saveWork(payload)
+      .then(() => {
+        //  publishWork
+      })
+      .then(() => {
+        // getChannels
+      })
+      .then(() => {
+        // TODO:
+      })
+  }
+
   function moveComponent(data: { direction: MoveDirection; amount: number }) {
     const updatedComponent = editor.components.find((c) => c.id === editor.currentElement)
     if (updatedComponent) {
@@ -379,6 +393,7 @@ export const useComponentStore = defineStore('post-component', () => {
     moveComponent,
     deleteComponent,
     copyComponent,
-    pastCopiedComponent
+    pastCopiedComponent,
+    saveAndPublishWork
   }
 })
