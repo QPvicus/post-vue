@@ -78,10 +78,8 @@ onMounted(() => {})
           <p>只需替换文字和图片,一键自动生成H5</p>
         </div>
       </el-row>
-      <el-row :gutter="16">
-        <el-empty
-          v-if="templates.length === 0 && !loading"
-        >
+      <el-row :gutter="16" justify="center">
+        <el-empty v-if="templates.length === 0 && !loading">
           <template #description>
             <span> 没找到任何海报 换个关键词试试 </span>
           </template>

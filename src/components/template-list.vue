@@ -5,7 +5,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="">template-list</div>
+  <div class=""></div>
 </template>
 
 <style></style>

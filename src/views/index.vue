@@ -16,9 +16,7 @@ const isHomePage = computed(() => route.name == 'Home')
     <el-container :style="{ background: '#fff' }">
       <el-header class="header" :class="{ 'transparent-header': isHomePage }">
         <div class="page-title">
-          <router-link to="/">
-            <img alt="Vue logo" src="../assets/logo2.png" class="logo-img" />
-          </router-link>
+          <img alt="绘海报" src="../assets/logo3.png" class="logo-img" />
         </div>
         <div class="right-col">
           <user-profile :user="userInfo"></user-profile>
@@ -51,5 +49,15 @@ const isHomePage = computed(() => route.name == 'Home')
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.page-title {
+  display: flex;
+  widows: 250px;
+}
+.page-title img {
+  width: 100%;
+  object-fit: contain;
+  height: 150px;
 }
 </style>
