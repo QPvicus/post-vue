@@ -32,26 +32,7 @@ export const useWorkStore = defineStore('post-work', () => {
 
   async function createWork(payload: any) {
     //  发送请求
-    const data: Record<string, any> = {
-      isTemplate: false,
-      copiedCount: 0,
-      status: 1,
-      channels: [],
-      _id: '653b06b43c38490fbb8' + uuidv4(),
-      title: '未命名作品',
-      desc: '未命名作品',
-      coverImg:
-        'http://typescript-vue.oss-cn-beijing.aliyuncs.com/vue-marker/5f81cca3f3bf7a0e1ebaf885.png',
-      user: '65276d463c02c3488c82e694',
-      author: '13175087561',
-      uuid: uuidv4(),
-      createdAt: '2023-10-27T00:39:16.912Z',
-      updatedAt: '2023-10-27T00:39:16.912Z',
-      id: 6242,
-      __v: 0
-    }
-    await new Promise((resolve) => resolve(1))
-    // @ts-ignore
+    const { data } = await axios.post(`/works/`, payload)
     work.works.unshift(data)
     return data
   }

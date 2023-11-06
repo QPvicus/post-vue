@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { cloneDeep, isUndefined } from 'lodash'
 import { insertAt } from '@/utils'
 import type { MoveDirection } from '@/plugins/dataOperations'
+import axios from 'axios'
 
 let globalTimeout = 0
 let cachedOldValue: any
@@ -224,29 +225,10 @@ export const useComponentStore = defineStore('post-component', () => {
   }
 
   async function getWork(id: string) {
-    const tm = {
-      _id: '653b0c5cb750ee0fbd3028df',
-      isTemplate: false,
-      copiedCount: 0,
-      status: 1,
-      channels: [],
-      title: '未命名作品',
-      desc: '未命名作品',
-      coverImg:
-        'http://typescript-vue.oss-cn-beijing.aliyuncs.com/vue-marker/5f81cca3f3bf7a0e1ebaf885.png',
-      user: '65276d463c02c3488c82e694',
-      author: '13175087561',
-      uuid: 'NpgrJZ',
-      createdAt: '2023-10-27T01:03:24.776Z',
-      updatedAt: '2023-10-27T01:03:24.776Z',
-      id: 6243,
-      __v: 0
-    }
-    const data = await new Promise((resolve) => {
-      resolve(tm)
-    })
+    const { data } = await axios.get(`/works/${id}`)
+    console.log('data getWork', data.data)
     //@ts-ignore
-    const { content, ...rest } = data
+    const { content, ...rest } = data.data
     editor.page = { ...editor.page, ...rest }
     if (content && content.props) {
       editor.page.props = { ...editor.page.props, ...content.props }
@@ -257,6 +239,8 @@ export const useComponentStore = defineStore('post-component', () => {
     if (content && content.components) {
       editor.components = content.components
     }
+
+    console.log(editor);
     return data
   }
 
@@ -276,11 +260,12 @@ export const useComponentStore = defineStore('post-component', () => {
           setting
         }
       }
-
-      await new Promise((resolve) => resolve(1))
+      const { data } = await axios.patch(`/works/${id}`, postData)
+      console.log('data saveWork', data)
       // post api  works/id
       editor.isDirty = false
       editor.page.updatedAt = new Date().toISOString()
+      return data
     }
   }
 

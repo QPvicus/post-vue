@@ -44,17 +44,17 @@ onMounted(() => {})
       <div class="welcome-container-inner">
         <el-row>
           <el-col :span="8" class="feature-item">
-            <Html5TwoTone />
-            <h3>专注H5 始终如一</h3>
-            <p>三年保持行业领先</p>
+            <svg-icon name="h5" class="icon-item"></svg-icon>
+            <h3>海报在手</h3>
+            <p>一呼百应</p>
           </el-col>
           <el-col :span="8" class="feature-item">
-            <BuildTwoTone />
-            <h3>海量 H5 模版</h3>
-            <p>一键生成，一分钟轻松制作</p>
+            <svg-icon name="template" class="icon-item"></svg-icon>
+            <h3>海量模版</h3>
+            <p>一分钟轻松制作</p>
           </el-col>
           <el-col :span="8" class="feature-item">
-            <BulbTwoTone />
+            <svg-icon name="experience" class="icon-item"></svg-icon>
             <h3>极致体验</h3>
             <p>用户的一致选择</p>
           </el-col>
@@ -75,11 +75,13 @@ onMounted(() => {})
         </el-button>
         <div class="hot-title" v-else>
           <h2 class="hot-template">热门海报</h2>
-          <p>只需替换文字和图片，一键自动生成H5</p>
+          <p>只需替换文字和图片,一键自动生成H5</p>
         </div>
       </el-row>
       <el-row :gutter="16">
-        <el-empty v-if="templates.length === 0 && !loading">
+        <el-empty
+          v-if="templates.length === 0 && !loading"
+        >
           <template #description>
             <span> 没找到任何海报 换个关键词试试 </span>
           </template>
@@ -214,5 +216,9 @@ onMounted(() => {})
 }
 .content-title h2 {
   margin-bottom: 0px;
+}
+
+.icon-item {
+  font-size: 36px;
 }
 </style>

@@ -70,7 +70,6 @@ router.beforeEach((to, from, next) => {
   NProgress.start()
   const store = useUserStore()
   const isLogin = computed(() => store.user.isLogin)
-  console.log('isLogin', isLogin.value, to, from)
   const { requiredLogin, redirectAlreadyLogin, title } = to.meta
   if (title) {
     //@ts-expect-error: 1
@@ -82,7 +81,6 @@ router.beforeEach((to, from, next) => {
       store
         .fetchCurrentUser()
         .then((data: any) => {
-          console.log(data, 'datattat')
           if (redirectAlreadyLogin) {
             next('/')
           } else {

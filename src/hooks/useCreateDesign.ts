@@ -16,7 +16,7 @@ export function useCreateDesign() {
           'http://typescript-vue.oss-cn-beijing.aliyuncs.com/vue-marker/5f81cca3f3bf7a0e1ebaf885.png'
       }
 
-      workStore.createWork(payload).then((data) => {
+      workStore.createWork(payload).then(({ data }) => {
         router.push(`/editor/${data.id}`)
       })
     } else {
