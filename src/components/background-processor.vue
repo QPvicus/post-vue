@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { UploadImgProps } from '@/utils'
 import { ElMessage } from 'element-plus'
 
 defineProps({
@@ -12,19 +13,20 @@ defineProps({
 })
 const emit = defineEmits(['change', 'uploaded'])
 
-function handleFileUploaded(data: any) {
+function handleFileUploaded(uploadedData: UploadImgProps) {
   ElMessage.success('上传成功')
   //TODO: xx
-  emit('change', URL.createObjectURL(data))
-  emit('uploaded', data)
+  emit('change', uploadedData.data.urls[0])
+  emit('uploaded', uploadedData)
 }
 
 function updateUrl(value: string) {
   emit('change', value)
 }
 
-function triggerUploaded(data: any) {
-  emit('uploaded', data)
+function triggerUploaded(uploadedData: UploadImgProps) {
+  console.log(uploadedData, 'nackground-processor dd')
+  emit('uploaded', uploadedData)
 }
 </script>
 

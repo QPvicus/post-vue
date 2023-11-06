@@ -1,8 +1,4 @@
 <script lang="ts" setup>
-import ContextMenu from '@/components/context-menu.vue'
-import ComponentsList from '@/components/editor/components-list.vue'
-import TabArea from '@/components/editor/tab-area.vue'
-import EditWrapper from '@/components/editor/edit-wrapper.vue'
 import { useUserStore, useComponentStore } from '@/stores'
 import type { ComponentData } from '@/stores/types'
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
@@ -11,6 +7,7 @@ import { imageDimensions, takeScreenshotAndUpload } from '@/utils'
 import { initKeys } from '@/plugins/hotKeys'
 import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
+import { ArrowLeft } from '@element-plus/icons-vue'
 
 export type TabType = 'component' | 'layer' | 'page'
 const route = useRoute()
@@ -107,7 +104,7 @@ function titleChange(val: string) {
 function adjustHeightOnUpload(event: any) {
   console.log('event', event)
   if (event.key === 'backgroundImage') {
-    imageDimensions(event.data).then((dimension) => {
+    imageDimensions(event.data.file).then((dimension) => {
       console.log(dimension.height, dimension.width, 'ssss')
       const maxWidth = 375
       const rate = dimension.height / dimension.width
@@ -126,7 +123,7 @@ async function publishWork() {
     console.log(e)
   } finally {
     // TODO:
-    editorStore.saveAndPublishWork({id: currentWorkId as string})
+    editorStore.saveAndPublishWork({ id: currentWorkId as string })
     visible.value = true
     isPublishing.value = false
   }
@@ -214,9 +211,9 @@ onUnmounted(() => {
       <el-container>
         <el-header class="header">
           <div class="page-title">
-            <router-link to="/">
-              <img src="" alt="Vue logo" class="logo-img" />
-            </router-link>
+            <el-icon @click.prevent="$router.push('/')" style="font-size: 32px; color: #fff"
+              ><ArrowLeft
+            /></el-icon>
             <input-edit :value="pageState.title" @change="titleChange">
               <h4>{{ pageState.title }}</h4>
             </input-edit>
@@ -336,7 +333,12 @@ onUnmounted(() => {
 }
 .page-title {
   display: flex;
+  align-items: center;
 }
+.page-title .el-icon {
+  margin-right: 10px;
+}
+
 .header h4 {
   color: #ffffff;
 }

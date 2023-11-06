@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { textList, type CreateComponentType, shapeList, imageList } from './component'
 import { Picture } from '@element-plus/icons-vue'
-import { commonUploadCheck, imageDimensions } from '@/utils'
+import { commonUploadCheck, imageDimensions, type UploadImgProps } from '@/utils'
 import { imageDefaultProps } from './component'
 import { ElMessage } from 'element-plus'
 const emit = defineEmits(['item-click'])
@@ -17,15 +17,14 @@ function onItemClick(item: CreateComponentType) {
   if (item.type != 'upload') emit('item-click', item)
 }
 
-function handleFileUpLoaded(file: File) {
-  console.log(file, 'file')
+function handleFileUpLoaded(uploadedData: UploadImgProps) {
   const data = {
     name: 'l-image',
     props: { ...imageDefaultProps }
   } as CreateComponentType
   ElMessage.success('上传成功')
-  data.props.imageSrc = URL.createObjectURL(file)
-  imageDimensions(file).then((dimension) => {
+  data.props.imageSrc = uploadedData.data.urls[0]
+  imageDimensions(uploadedData.file).then((dimension) => {
     const maxWidth = 300
     data.props.width = (dimension.width > maxWidth ? maxWidth : dimension.width) + 'px'
     emit('item-click', data)
@@ -68,9 +67,10 @@ function handleFileUpLoaded(file: File) {
           </span>
         </template>
         <uploader
+          action="/utils/upload-img"
           :before-upload="commonUploadCheck"
           @file-uploaded="
-            (file: File) => {
+            (file: UploadImgProps) => {
               handleFileUpLoaded(file)
             }
           "

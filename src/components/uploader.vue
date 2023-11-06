@@ -44,30 +44,27 @@ function handleFileChange(e: Event) {
     fileStatus.value = 'loading'
     const formData = new FormData()
     formData.append('file', files[0])
-    emit('file-uploaded', files[0])
-    if (fileInput.value) fileInput.value.value = ''
-    fileStatus.value = 'success'
-    // axios
-    //   .post(props.action, formData, {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data'
-    //     }
-    //   })
-    //   .then((resp) => {
-    //     fileStatus.value = 'success'
-    //     uploadedData.value = resp.data
-    //     resp.data.file = files[0]
-    //     emit('file-uploaded', resp.data)
-    //   })
-    //   .catch((error) => {
-    //     fileStatus.value = 'error'
-    //     emit('file-uploaded-error', { error })
-    //   })
-    //   .finally(() => {
-    //     if (fileInput.value) {
-    //       fileInput.value.value = ''
-    //     }
-    //   })
+    axios
+      .post(props.action, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      .then((resp) => {
+        fileStatus.value = 'success'
+        uploadedData.value = resp.data
+        resp.data.file = files[0]
+        emit('file-uploaded', resp.data)
+      })
+      .catch((error) => {
+        fileStatus.value = 'error'
+        emit('file-uploaded-error', { error })
+      })
+      .finally(() => {
+        if (fileInput.value) {
+          fileInput.value.value = ''
+        }
+      })
   }
 }
 

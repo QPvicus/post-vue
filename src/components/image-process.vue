@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, nextTick, ref, watch } from 'vue'
 import { UploadFilled, Scissor, Delete } from '@element-plus/icons-vue'
-import { commonUploadCheck } from '@/utils'
+import { commonUploadCheck, type UploadImgProps } from '@/utils'
 import { ElMessage } from 'element-plus'
 import Cropper from 'cropperjs'
 const props = defineProps({
@@ -67,9 +67,10 @@ function handleConfirm() {
   showModal.value = false
 }
 
-function handleFileUpload(file: File) {
+function handleFileUpload(uploadedData: UploadImgProps) {
   ElMessage.success('上传成功')
-  emit('change', URL.createObjectURL(file))
+  emit('change', uploadedData.data.urls[0])
+  emit('uploaded', uploadedData)
 }
 
 function handleDelete() {
@@ -92,7 +93,11 @@ function handleDelete() {
     </el-dialog>
     <div class="image-preview" :style="{ backgroundImage: backgroundUrl }"></div>
     <div class="image-process">
-      <uploader action="" :before-upload="commonUploadCheck" @file-uploaded="handleFileUpload">
+      <uploader
+        action="/utils/upload-img"
+        :before-upload="commonUploadCheck"
+        @file-uploaded="handleFileUpload"
+      >
         <div class="uploader-container">
           <el-button>
             <template #icon

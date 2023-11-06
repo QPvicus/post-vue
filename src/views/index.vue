@@ -14,9 +14,9 @@ const isHomePage = computed(() => route.name == 'Home')
 <template>
   <div class="container">
     <el-container :style="{ background: '#fff' }">
-      <el-header class="header" :class="{ 'transparent-header': isHomePage }">
+      <el-header class="header">
         <div class="page-title">
-          <img alt="绘海报" src="../assets/logo3.png" class="logo-img" />
+          <p class="logo" @click="$router.push('/')">绘海报</p>
         </div>
         <div class="right-col">
           <user-profile :user="userInfo"></user-profile>
@@ -49,6 +49,13 @@ const isHomePage = computed(() => route.name == 'Home')
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #001529 !important;
+  color: #fff;
+}
+
+.header .logo {
+  font-size: 20px;
+  cursor: pointer;
 }
 
 .page-title {

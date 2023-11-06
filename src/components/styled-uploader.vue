@@ -20,7 +20,7 @@ function handleFileUploaded(data: any) {
 <template>
   <div class="styled-upload-component">
     <uploader
-      action=""
+      action="/utils/upload-img"
       :beforeUpload="commonUploadCheck"
       :uploaded="uploaded"
       @file-uploaded="handleFileUploaded"
