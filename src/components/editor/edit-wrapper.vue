@@ -157,8 +157,8 @@ function itemEdit() {
     :class="{ active }"
     ref="editWrapper"
     :style="styleProps"
-    @click="itemClick"
-    @dblclick="itemEdit"
+    @click.prevent="itemClick"
+    @dblclick.prevent="itemEdit"
     :data-component-id="id"
   >
     <div class="move-wrapper" ref="moveWrapper" @mousedown="startMove">

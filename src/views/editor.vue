@@ -97,7 +97,7 @@ function handleChange(data: any) {
 function titleChange(val: string) {
   editorStore.updatePage({ key: 'title', value: val })
   nextTick(() => {
-    // TODO: Xxx
+    saveWork()
   })
 }
 
@@ -281,8 +281,8 @@ onUnmounted(() => {
           </el-main>
         </el-container>
         <el-aside width="300px" style="background: #fff" class="settings-panel">
-          <el-tabs stretch>
-            <el-tab-pane label="属性设置">
+          <el-tabs stretch v-model="activePanel">
+            <el-tab-pane label="属性设置" name="component">
               <template v-if="currentElement">
                 <div v-if="!currentElement.isLocked">
                   <edit-group :props="currentElement.props"></edit-group>
@@ -295,14 +295,14 @@ onUnmounted(() => {
                 <el-empty description="在画布中选择元素并开始编辑" />
               </template>
             </el-tab-pane>
-            <el-tab-pane label="图层设置">
+            <el-tab-pane label="图层设置" name="layer">
               <layer-list
                 :list="components"
                 @select="(id: string) => setActive(id, true)"
                 @change="handleChange"
               ></layer-list>
             </el-tab-pane>
-            <el-tab-pane label="页面设置">
+            <el-tab-pane label="页面设置" name="page">
               <div class="page-settings">
                 <props-table
                   :props="pageState.props"
